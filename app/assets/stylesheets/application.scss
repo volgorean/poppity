@@ -1,0 +1,151 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+* {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+  z-index: 300;
+}
+html, body {
+  width: 100%;
+  height: 100vh;
+  color: #222222;
+  background: #EFEFF0;
+  overflow-x: hidden;
+}
+input, select, textarea {
+  outline: none;
+}
+.middle {
+  width: 1360px;
+  margin: 0 auto;
+}
+/* flex item */
+.flexi-i {
+  flex: 1 1;
+  min-height: 0; /* weird firefox thing for nested overflow-y */
+}
+/* flex container */
+.flexi-c {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-content: stretch;
+}
+.r {
+  flex-direction: row;
+}
+.flash {
+  width: 100%;
+  margin-bottom: 10px;
+  padding-left: 5px;
+  font: 500 14px/28px serif;
+  border-radius: 3px;
+  border: 1px solid lightgray;
+  background: white;
+
+  > .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    line-height: 30px;
+    width: 30px;
+    text-align: center;
+    color: gray;
+    cursor: pointer;
+  }
+
+}
+nav {
+  width: 100%;
+  height: 60px;
+  background: gray;
+  z-index: 700;
+
+  .nav-left {
+    #logo {
+      flex: 0 0 260px;
+      height: 40px;
+      margin: 10px 0;
+      background: image-url("logo.svg") no-repeat center;
+      background-size: auto 100%;
+    }
+  }
+  .nav-right {
+    justify-content: flex-end;
+  }
+
+  .menu-item {
+    height: 60px;
+    padding: 10px;
+    font: 500 20px/40px sans-serif;
+    color: black;
+    cursor: pointer;
+  }
+  .drop-down {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    width: calc(720px + 40px);
+    padding: 20px;
+    border-radius: 5px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+
+    background: white;
+    display: none;
+
+    .drop-text{
+      padding: 10px;
+      font: 400 14px/16px sans-serif;
+
+      .drop-title {
+        color: #222222;
+        font: 600 18px/20px sans-serif;
+        cursor: pointer;
+      }
+    }
+
+    .drop-icon {
+      flex: 0 0 60px;
+      height: 60px;
+      background: image-url("collections/chessington-world-of-adventure.png") no-repeat center;
+      background-size: contain;
+      cursor: pointer;
+    }
+
+    &:after {
+      position: absolute;
+      content: "";
+      top: -5px;
+      left: 40px;
+      width: 10px;
+      height: 10px;
+      background: white;
+      transform: rotate(45deg);
+    }
+  }
+  .drop-down-parent:hover > .drop-down {
+    display: grid;
+  }
+}

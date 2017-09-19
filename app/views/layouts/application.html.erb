@@ -13,16 +13,53 @@
 
   <body>
     <div class="middle">
-      <nav>
-        <a href="/" id="logo">logo</a>
+      <nav class="flexi-c r">
+        <div class="nav-left flexi-i flexi-c r">
+          <a href="/" id="logo"></a>
 
-        <div class="right">
+          <div class="flexi-i drop-down-parent">
+            <p class="menu-item">Collections</p>
+
+            <ul class="drop-down">
+              <% Collection.all.each do |c| %>
+                <li class="flexi-c r">
+                <%= link_to "", collection_path(c), class: "flexi-i drop-icon" %>
+
+                  <div class="flexi-i drop-text">
+                    <%= link_to c.name, collection_path(c), class: "drop-title" %>
+                    <p><%= c.badges.count %> badges</p>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+          <div class="flexi-i drop-down-parent">
+            <p class="menu-item">Categories</p>
+
+            <ul class="drop-down">
+              <% Category.all.each do |c| %>
+                <li class="flexi-c r">
+                <%= link_to "", category_path(c), class: "flexi-i drop-icon" %>
+
+                  <div class="flexi-i drop-text">
+                    <%= link_to c.name, category_path(c), class: "drop-title" %>
+                    <p><%= c.badges.count %> badges</p>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+
+
+        <div class="nav-right flexi-i flexi-c r">
           <% if current_user %>
-            <%= link_to "me", me_path %>
-            <%= link_to "sign out", logout_path, method: :delete %>
+            <%= link_to "me", me_path, class: "menu-item" %>
+            <%= link_to "sign out", logout_path, method: :delete, class: "menu-item" %>
           <% else %>
-            <%= link_to "sign in", login_page_path %>
-            <%= link_to "sign up", register_page_path %>
+            <%= link_to "sign in", login_page_path, class: "menu-item" %>
+            <%= link_to "sign up", register_page_path, class: "menu-item" %>
           <% end %>
         </div>
       </nav>
@@ -30,8 +67,8 @@
       <main>
         <% flash_messages.each do |m| %>
           <div class="flash <%= m[:kind] %>">
-            <p><%= m[:text] %></p>
-            <span class="close">✖</span>
+            <%= m[:text] %>
+            <span class="close" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">✖</span>
           </div>
         <% end %>
 
