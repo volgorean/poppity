@@ -3,7 +3,7 @@
 <ul>
   <h3>Trades</h3>
   
-  <% @trades.each do |trade| %>
-    <li><%= link_to trade.id, trade_path(trade) %></li>
+  <% @trades.each do |t| %>
+    <li><%= link_to (t.a == current_user ? t.b.username : t.a.username), trade_path(t) %></li>
   <% end %>
 </ul>

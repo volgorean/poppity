@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :wishes
   has_many :wish_items, through: :wishes, source: :badge
 
+  has_many :trade_badges
+
   validates :email, presence: true, uniqueness: {message: "This email is already in use."}
   validates :username, presence: true, uniqueness: {message: "This username is already in use."}
 

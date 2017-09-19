@@ -1,1 +1,35 @@
-trade
+<h1>Trade</h1>
+
+<h4>Trade between <%= link_to @trade.a.username, user_path(@trade.a) %> and <%= link_to @trade.b.username, user_path(@trade.b) %></h4>
+
+<ul>
+  <h3><%= link_to @trade.a.username, user_path(@trade.a) %> offers:</h3>
+
+  <% @trade.trade_badges.where(user: @trade.a).each do |tb| %>
+    <li><%= link_to tb.badge.name, badge_path(tb.badge_id) %> quantity: <%= tb.number %></li>
+  <% end %>
+
+  <ul>
+    <h4>add items</h4>
+
+    <% @trade.a.inventories.where.not(badge_id: @trade.trade_badges.pluck(:badge_id)).each do |i| %>
+      <li><%= link_to i.badge.name, badge_path(i.badge_id) %> - add</li>
+    <% end %>
+  </ul>
+</ul>
+
+<ul>
+  <h3><%= link_to @trade.b.username, user_path(@trade.b) %> offers:</h3>
+
+  <% @trade.trade_badges.where(user: @trade.b).each do |tb| %>
+    <li><%= link_to tb.badge.name, badge_path(tb.badge_id) %> quantity: <%= tb.number %></li>
+  <% end %>
+
+  <ul>
+    <h4>add items</h4>
+  
+    <% @trade.a.inventories.where.not(badge_id: @trade.trade_badges.pluck(:badge_id)).each do |i| %>
+      <li><%= link_to i.badge.name, badge_path(i.badge_id) %> - add</li>
+    <% end %>
+  </ul>
+</ul>

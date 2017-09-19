@@ -71,7 +71,8 @@ class CreateModels < ActiveRecord::Migration[5.1]
       t.integer :number
 
       t.integer :trade_id
-      t.integer :inventory_id
+      t.integer :badge_id
+      t.integer :user_id
 
       t.timestamps
     end
