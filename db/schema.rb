@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(version: 20170919105147) do
   end
 
   create_table "trades", force: :cascade do |t|
-    t.integer "a"
-    t.integer "b"
+    t.integer "a_id"
+    t.integer "b_id"
     t.jsonb "chat"
     t.boolean "a_accepts"
     t.boolean "b_accepts"

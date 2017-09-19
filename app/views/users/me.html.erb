@@ -1,1 +1,9 @@
 <h1>Me! <%= current_user.username %></h1>
+
+<ul>
+  <h3>Trades</h3>
+  
+  <% @trades.each do |trade| %>
+    <li><%= link_to trade.id, trade_path(trade) %></li>
+  <% end %>
+</ul>

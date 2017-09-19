@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
     post "/", to: "trades#create", as: :create_trade
     post "/:id", to: "trades#update", as: :update_trade
+    post "/:id/message", to: "trades#message", as: :message_trade
   end
 
   root to: "collections#index"

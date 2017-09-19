@@ -51,8 +51,8 @@ class CreateModels < ActiveRecord::Migration[5.1]
     end
 
     create_table :trades do |t|
-      t.integer :a
-      t.integer :b
+      t.integer :a_id
+      t.integer :b_id
 
       t.jsonb :chat
 

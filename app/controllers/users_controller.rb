@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def me
-
+    @trades = current_user.trades
   end
 
   def show

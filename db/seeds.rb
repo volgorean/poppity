@@ -12,6 +12,8 @@ users = []
 users << User.create(
   email: "me@mamamia.com",
   username: "admin",
+  name: "joe",
+  address: "123 platz place, somewhere",
   password_hash: BCrypt::Password.create("mamamia"),
   admin: true
 )
@@ -19,6 +21,8 @@ users << User.create(
 users << User.create(
   email: "user@test.com",
   username: "testee",
+  name: "joe",
+  address: "123 platz place, somewhere",
   password_hash: BCrypt::Password.create("abc123"),
   admin: false
 )
@@ -26,6 +30,8 @@ users << User.create(
 users << User.create(
   email: "joe@shmo.com",
   username: "joe",
+  name: "joe",
+  address: "123 platz place, somewhere",
   password_hash: BCrypt::Password.create("joeshmo"),
   admin: false
 )
