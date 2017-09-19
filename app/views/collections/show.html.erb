@@ -1,0 +1,7 @@
+<ul>
+  <h3><%= @collection.name %></h3>
+
+  <% @collection.badges.each do |b| %>
+    <li><%= link_to b.name, badge_path(b) %></li>
+  <% end %>
+</ul>

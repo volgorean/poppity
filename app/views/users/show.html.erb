@@ -1,0 +1,17 @@
+<h1><%= @user.username %></h1>
+
+<ul>
+  <h3>wish list</h3>
+
+  <% @user.wish_items.each do |w| %>
+    <li><%= link_to w.name, badge_path(w) %></li>
+  <% end %>
+</ul>
+
+<ul>
+  <h3>owns</h3>
+
+  <% @user.badges.each do |b| %>
+    <li><%= link_to b.name, badge_path(b) %></li>
+  <% end %>
+</ul>
