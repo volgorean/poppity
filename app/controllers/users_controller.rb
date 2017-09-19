@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :signed_in?, only: :me
+
   def me
     @trades = current_user.trades
   end

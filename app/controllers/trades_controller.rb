@@ -1,5 +1,5 @@
 class TradesController < ApplicationController
-  # must be signed in
+  before_action :signed_in?
 
   def show
     @trade = current_user.trades.find(params[:id])
