@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Poppity</title>
     <%= csrf_meta_tags %>
 
@@ -9,6 +12,33 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="middle">
+      <nav>
+        <a href="/" id="logo">logo</a>
+
+        <div class="right">
+          <% if current_user %>
+            <%= link_to "me", me_path %>
+            <%= link_to "sign out", logout_path, method: :delete %>
+          <% else %>
+            <%= link_to "sign in", login_page_path %>
+            <%= link_to "sign up", register_page_path %>
+          <% end %>
+        </div>
+      </nav>
+
+      <main>
+        <% flash_messages.each do |m| %>
+          <div class="flash <%= m[:kind] %>">
+            <p><%= m[:text] %></p>
+            <span class="close">✖</span>
+          </div>
+        <% end %>
+
+        <%= yield %>
+      </main>
+
+      <footer></footer>
+    </div>
   </body>
 </html>

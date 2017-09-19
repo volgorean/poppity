@@ -1,8 +1,15 @@
 Rails.application.routes.draw do
-
   get "/me", to: "users#me"
   get "/users/:id", to: "users#show", as: :user
   get "/collections/:id", to: "collections#show", as: :collection
+
+  get "/login", to: "users#login_page", as: :login_page
+  post "/login", to: "users#login", as: :login
+
+  get "/register", to: "users#register_page", as: :register_page
+  post "/register", to: "users#register", as: :register
+
+  delete "/logout", to: "users#logout", as: :logout
 
   scope :badges do
     get "/:id", to: "badges#show", as: :badge
