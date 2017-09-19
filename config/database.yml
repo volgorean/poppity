@@ -1,0 +1,19 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 25
+  timeout: 5000
+
+development:
+  <<: *default
+  host: "localhost"
+  database: "poppity_development"
+  username: "peter"
+
+production:
+  <<: *default
+  host: ENV["db_host"]
+  database: ENV["db_name"]
+  username: ENV["db_username"]
+  password: ENV["db_password"]
