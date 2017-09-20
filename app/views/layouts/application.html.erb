@@ -22,8 +22,8 @@
 
             <ul class="drop-down">
               <% Collection.all.each do |c| %>
-                <li class="flexi-c r">
-                <%= link_to "", collection_path(c), class: "flexi-i drop-icon" %>
+                <li class="flexi-c r drop-item">
+                  <%= link_to "", collection_path(c), class: "flexi-i drop-icon" %>
 
                   <div class="flexi-i drop-text">
                     <%= link_to c.name, collection_path(c), class: "drop-title" %>
@@ -39,8 +39,8 @@
 
             <ul class="drop-down">
               <% Category.all.each do |c| %>
-                <li class="flexi-c r">
-                <%= link_to "", category_path(c), class: "flexi-i drop-icon" %>
+                <li class="flexi-c r drop-item">
+                  <%= link_to "", category_path(c), class: "flexi-i drop-icon" %>
 
                   <div class="flexi-i drop-text">
                     <%= link_to c.name, category_path(c), class: "drop-title" %>

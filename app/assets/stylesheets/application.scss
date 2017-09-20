@@ -131,6 +131,11 @@ nav {
     background: white;
     display: none;
 
+    .drop-item:hover {
+      background: #FAFAFA;
+      cursor: pointer;
+    }
+
     .drop-text{
       padding: 10px;
       font: 400 14px/16px sans-serif;
@@ -206,7 +211,7 @@ nav {
     background-size: contain;
   }
 } 
-.five { grid-template-columns: repeat(5, 1fr); }
+.six { grid-template-columns: repeat(6, 1fr); }
 
 .rows {
   .cross {

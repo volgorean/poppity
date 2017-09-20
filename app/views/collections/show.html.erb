@@ -10,7 +10,7 @@
     <% @collection.badges.order('year DESC').group_by(&:year).each do |year, badges| %>
       <h3 class="year-title"><%= year %></h3>
 
-      <div class="cards five">
+      <div class="cards">
         <% badges.each do |b| %>
           <div class="card">
             <% if current_user %>
