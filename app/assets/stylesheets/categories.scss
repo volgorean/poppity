@@ -1,0 +1,50 @@
+// Place all the styles related to the categories controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.hero {
+  .hero-title {
+    top: 70px;
+    max-width: 600px;
+    margin: 0 auto;
+    font: 700 36px/48px sans-serif;
+    text-align: center;
+    text-shadow: 0 1px lightgrey;
+    color: white;
+  }
+  #people {
+    width: 100%;
+    padding-bottom: 40%;
+    background: image-url("people.png") no-repeat center bottom;
+    background-size: calc(100% - 80px) auto;
+  }
+  #search {
+    width: 100%;
+    border-bottom: 3px solid lightgray;
+
+    > * {
+      height: 40px;
+      border: none;
+    }
+    .search-field {
+      flex: 4 4 calc(100% - 200px);
+      padding-left: 10px;
+    }
+    .search-submit {
+      flex: 0 0 200px;
+      text-align: center;
+    }
+  }
+}
+
+.section-title {
+  padding: 80px 0;
+  font: 900 72px/72px sans-serif;
+  text-align: center;
+  color: lightgray;
+}
+.year-title {
+  padding: 20px 0;
+  font: 900 28px/32px sans-serif;
+  color: gray;
+}

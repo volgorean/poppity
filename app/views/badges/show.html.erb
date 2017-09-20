@@ -1,17 +1,30 @@
-<h1><%= @badge.name %></h1>
+<div class="flexi-c r">
+  <div class="flexi-i side-bar">
+    <div class="card">
+      <% if current_user %>
+        <%= link_to "", "#", class: "card-star #{(current_user.wish_items.include? @badge) ? 'active' : ''}" %>
+      <% end %>
 
-<ul>
-  <h3>wishers</h3>
+      <%= link_to "", badge_path(@badge), class: "card-image" %>
+      <%= link_to @badge.name, badge_path(@badge), class: "card-title" %>
+    </div>
+  </div>
 
-  <% @badge.wishers.where.not(id: current_user&.id).each do |u| %>
-    <li><%= link_to u.username, user_path(u) %></li>
-  <% end %>
-</ul>
+  <div class="flexi-i listing">
+    <ul class="rows">
+      <h3 class="year-title<%= @wishers.empty? ? ' cross' : '' %>">Wishers</h3>
 
-<ul>
-  <h3>owners</h3>
+      <% @wishers.each do |u| %>
+        <li><%= link_to u.username, user_path(u) %></li>
+      <% end %>
+    </ul>
 
-  <% @badge.users.where.not(id: current_user&.id).each do |u| %>
-    <li><%= link_to u.username, user_path(u) %></li>
-  <% end %>
-</ul>
+    <ul class="rows">
+      <h3 class="year-title <%= @owners.empty? ? ' cross' : '' %>">Owners</h3>
+
+      <% @owners.each do |u| %>
+        <li><%= link_to u.username, user_path(u) %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

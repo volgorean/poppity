@@ -34,7 +34,8 @@ input, select, textarea {
   outline: none;
 }
 .middle {
-  width: 1360px;
+  width: 960px;
+  max-width: 100%;
   margin: 0 auto;
 }
 /* flex item */
@@ -52,6 +53,14 @@ input, select, textarea {
 }
 .r {
   flex-direction: row;
+}
+.side-bar {
+  flex: 0 1 280px;
+  padding-top: 20px;
+  padding-right: 20px
+}
+.listing {
+  padding-top: 10px;
 }
 .flash {
   width: 100%;
@@ -77,7 +86,6 @@ input, select, textarea {
 nav {
   width: 100%;
   height: 60px;
-  background: gray;
   z-index: 700;
 
   .nav-left {
@@ -85,12 +93,20 @@ nav {
       flex: 0 0 260px;
       height: 40px;
       margin: 10px 0;
+      margin-right: 15px;
       background: image-url("logo.svg") no-repeat center;
       background-size: auto 100%;
+    }
+    > * {
+      flex-grow: 0;
     }
   }
   .nav-right {
     justify-content: flex-end;
+
+    > * {
+      flex-grow: 0;
+    }
   }
 
   .menu-item {
@@ -147,5 +163,63 @@ nav {
   }
   .drop-down-parent:hover > .drop-down {
     display: grid;
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+}
+.card {
+  padding: 20px;
+  border-radius: 10px;
+  border-bottom: 3px solid lightgray;
+  background: white;
+
+  .card-image {
+    display: block;
+    width: 100%;
+    padding-bottom: 100%;
+    background: image-url("collections/chessington-world-of-adventure.png") no-repeat center;
+    background-size: contain;
+  }
+  .card-title {
+    display: block;
+    padding: 10px 0;
+    text-align: center;
+    font: 600 14px/20px sans-serif;
+    color: #222222;
+  }
+  .card-star {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    background: image-url("star.svg") no-repeat center;
+    background-size: contain;
+  }
+  .card-star.active {
+    background: image-url("gold-star.svg") no-repeat center;
+    background-size: contain;
+  }
+} 
+.five { grid-template-columns: repeat(5, 1fr); }
+
+.rows {
+  .cross {
+    text-decoration: line-through;
+  }
+
+  li {
+    padding-left: 10px;
+    font: 300 16px/32px sans-serif;
+    background: lightgray;
+
+    &:nth-child(even) {
+      background: lavender;
+    }
   }
 }

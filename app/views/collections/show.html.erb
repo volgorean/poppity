@@ -1,7 +1,28 @@
-<ul>
-  <h3><%= @collection.name %></h3>
+<div class="flexi-c r">
+  <div class="flexi-i side-bar">
+    <div class="card">
+      <%= link_to "", badge_path(@collection), class: "card-image" %>
+      <%= link_to @collection.name, badge_path(@collection), class: "card-title" %>
+    </div>
+  </div>
 
-  <% @collection.badges.each do |b| %>
-    <li><%= link_to b.name, badge_path(b) %></li>
-  <% end %>
-</ul>
+  <div class="flexi-i listing">
+    <% @collection.badges.order('year DESC').group_by(&:year).each do |year, badges| %>
+      <h3 class="year-title"><%= year %></h3>
+
+      <div class="cards five">
+        <% badges.each do |b| %>
+          <div class="card">
+            <% if current_user %>
+              <%= link_to "", "#", class: "card-star #{(current_user.wish_items.include? b) ? 'active' : ''}" %>
+            <% end %>
+
+            <%= link_to "", badge_path(b), class: "card-image" %>
+            <%= link_to b.name, badge_path(b), class: "card-title" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+

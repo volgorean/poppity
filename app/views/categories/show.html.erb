@@ -1,0 +1,7 @@
+<ul>
+  <h3><%= @category.name %></h3>
+
+  <% @category.badges.each do |b| %>
+    <li><%= link_to b.name, badge_path(b) %></li>
+  <% end %>
+</ul>

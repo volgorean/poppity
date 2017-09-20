@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get "/me", to: "users#me"
   get "/users/:id", to: "users#show", as: :user
   get "/collections/:id", to: "collections#show", as: :collection
+  get "/categories/:id", to: "categories#show", as: :category
 
   get "/login", to: "users#login_page", as: :login_page
   post "/login", to: "users#login", as: :login

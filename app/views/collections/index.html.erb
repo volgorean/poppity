@@ -1,7 +1,21 @@
-<ul>
-  <h1>collections</h1>
+<div class="hero">
+  <h1 class="hero-title">Join the world’s largest community of language learners.</h1>
 
-  <% @collections.each do |c| %>
-    <li><%= link_to c.name, collection_path(c) %></li>
+  <div id="people"></div>
+
+  <%= form_tag("/search", class: "flexi-c r", id: "search") do %>
+    <input class="flexi-i search-field" type="search" name="search" placeholder="Search..."></input>
+    <input class="flexi-i search-submit" type="submit"></input>
   <% end %>
-</ul>
+</div>
+
+<h1 class="section-title">collections</h1>
+
+<div class="cards">
+  <% @collections.each do |c| %>
+    <div class="card">
+      <%= link_to "", collection_path(c), class: "card-image" %>
+      <%= link_to c.name, collection_path(c), class: "card-title" %>
+    </div>
+  <% end %>
+</div>
