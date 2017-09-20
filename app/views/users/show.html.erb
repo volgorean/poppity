@@ -1,24 +1,37 @@
-<h1><%= @user.username %></h1>
+<h1 class="section-title"><%= @user.username %></h1>
 
-<%= form_tag(create_trade_path, method: "POST") do %>
-  <h3>Open trade with <%= @user.username %></h3>
-  
-  <input type="hidden" name="user_id" value="<%= @user.id %>"></input>
-  <input type="submit"></input>
+
+<% if current_user%>
+    <% @trades.each do |trade| %>
+      <%= link_to "Ongoing trade", trade_path(trade) %>
+    <% end %>
+    
+    <%= form_tag(create_trade_path, method: "POST") do %>
+      <input type="hidden" name="user_id" value="<%= @user.id %>"></input>
+      <input type="submit" value="Open new trade with <%= @user.username %>"></input>
+    <% end %>
 <% end %>
 
-<ul>
-  <h3>wish list</h3>
 
-  <% @user.wish_items.each do |w| %>
-    <li><%= link_to w.name, badge_path(w) %></li>
+<h3 class="year-title">Wish list</h3>
+
+<div class="cards six">
+  <% @user.wish_items.each do |b| %>
+    <div class="card">
+      <%= link_to "", badge_path(b), class: "card-image" %>
+      <%= link_to b.name, badge_path(b), class: "card-title" %>
+    </div>
   <% end %>
-</ul>
+</div>
 
-<ul>
-  <h3>owns</h3>
 
+<h3 class="year-title">Owns</h3>
+
+<div class="cards six">
   <% @user.badges.each do |b| %>
-    <li><%= link_to b.name, badge_path(b) %></li>
+    <div class="card">
+      <%= link_to "", badge_path(b), class: "card-image" %>
+      <%= link_to b.name, badge_path(b), class: "card-title" %>
+    </div>
   <% end %>
-</ul>
+</div>

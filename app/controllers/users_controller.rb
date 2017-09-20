@@ -6,12 +6,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    if params[:id]&.to_i == current_user.id
+    if params[:id].to_i == current_user&.id
       redirect_to me_path
       return
     end
 
     @user = User.find(params[:id])
+    @trades = @user.trades.where("a_id = ? OR b_id = ?", current_user.id, current_user.id) if current_user
   end
 
   def login_page
