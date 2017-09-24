@@ -1,6 +1,6 @@
 class Badge < ApplicationRecord
-  belongs_to :category
-  belongs_to :collection
+  belongs_to :category, counter_cache: true
+  belongs_to :collection, counter_cache: true
 
   has_many :inventories
   has_many :users, through: :inventories

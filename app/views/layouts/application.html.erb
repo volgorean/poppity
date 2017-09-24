@@ -27,7 +27,7 @@
 
                   <div class="flexi-i drop-text">
                     <%= link_to c.name, collection_path(c), class: "drop-title" %>
-                    <p><%= c.badges.count %> badges</p>
+                    <p><%= c.badges_count %> badges</p>
                   </div>
                 </li>
               <% end %>
@@ -44,7 +44,7 @@
 
                   <div class="flexi-i drop-text">
                     <%= link_to c.name, category_path(c), class: "drop-title" %>
-                    <p><%= c.badges.count %> badges</p>
+                    <p><%= c.badges_count %> badges</p>
                   </div>
                 </li>
               <% end %>

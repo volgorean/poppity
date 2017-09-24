@@ -181,6 +181,7 @@ nav {
   border-radius: 10px;
   border-bottom: 3px solid lightgray;
   background: white;
+  cursor: pointer;
 
   .card-image {
     display: block;
@@ -211,6 +212,13 @@ nav {
     background-size: contain;
   }
 } 
+.card-gold {
+  border-bottom: 3px solid gold;
+}
+.card-gray {
+  opacity: 0.3;
+}
+.five { grid-template-columns: repeat(5, 1fr); }
 .six { grid-template-columns: repeat(6, 1fr); }
 
 .rows {

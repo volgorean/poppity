@@ -27,11 +27,14 @@ ActiveRecord::Schema.define(version: 20170919105147) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
+    t.string "image"
+    t.integer "badges_count", default: 0
   end
 
   create_table "collections", force: :cascade do |t|
     t.string "name"
     t.string "image"
+    t.integer "badges_count", default: 0
   end
 
   create_table "inventories", force: :cascade do |t|

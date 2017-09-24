@@ -1,35 +1,56 @@
-<h1>Trade</h1>
+<div class="flexi-c r" id="app">
+  <div class="flexi-i side-bar">
+    <%= render "status" %>
+  </div>
 
-<h4>Trade between <%= link_to @trade.a.username, user_path(@trade.a) %> and <%= link_to @trade.b.username, user_path(@trade.b) %></h4>
+  <div class="flexi-i listing">
+    <h3 class="year-title">Your offer</h3>
 
-<ul>
-  <h3><%= link_to @trade.a.username, user_path(@trade.a) %> offers:</h3>
+    <div class="cards five">
+      <div class="card"
+        v-for="badge in your_badges"
+        @click="update_offer(<%= current_user.id %>, badge)"
+        :class="{'card-gold': badge.wish, 'card-gray': !badge.trading}">
+        <p class="card-image"></p>
+        <p class="card-title">{{badge.name}}</p>
+      </div>
+    </div>
 
-  <% @trade.trade_badges.where(user: @trade.a).each do |tb| %>
-    <li><%= link_to tb.badge.name, badge_path(tb.badge_id) %> quantity: <%= tb.number %></li>
-  <% end %>
+    <h3 class="year-title"><%= @them.username %>'s offer</h3>
 
-  <ul>
-    <h4>add items</h4>
+    <div class="cards five">
+      <div class="card"
+        v-for="badge in their_badges"
+        @click="update_offer(<%= @them.id %>, badge)"
+        :class="{'card-gold': badge.wish, 'card-gray': !badge.trading}">
+        <p class="card-image"></p>
+        <p class="card-title">{{badge.name}}</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <% @trade.a.inventories.where.not(badge_id: @trade.trade_badges.pluck(:badge_id)).each do |i| %>
-      <li><%= link_to i.badge.name, badge_path(i.badge_id) %> - add</li>
-    <% end %>
-  </ul>
-</ul>
+<script>
+  var vivi = new Vue({
+    el: "#app",
+    data: {
+      your_badges: <%= raw (@your_badges).to_json %>,
+      their_badges: <%= raw (@their_badges).to_json %>
+    },
+    methods: {
+      update_offer: function(user_id, badge) {
+        this.appli.perform("update_offer", {user: user_id, badge: badge.id, trading: !badge.trading})
+      }
+    }
+  });
 
-<ul>
-  <h3><%= link_to @trade.b.username, user_path(@trade.b) %> offers:</h3>
-
-  <% @trade.trade_badges.where(user: @trade.b).each do |tb| %>
-    <li><%= link_to tb.badge.name, badge_path(tb.badge_id) %> quantity: <%= tb.number %></li>
-  <% end %>
-
-  <ul>
-    <h4>add items</h4>
-  
-    <% @trade.a.inventories.where.not(badge_id: @trade.trade_badges.pluck(:badge_id)).each do |i| %>
-      <li><%= link_to i.badge.name, badge_path(i.badge_id) %> - add</li>
-    <% end %>
-  </ul>
-</ul>
+  Vue.prototype.appli = App.cable.subscriptions.create({channel: "TradeChannel", id: <%= @trade.id %>}, {
+    received: function(data) {
+      console.log(data);
+      if (data.kind == "update_offer") {
+        var whos_badges = (data.user == <%= current_user.id %> ? "your_badges" : "their_badges")
+        vivi.$data[whos_badges].find(x => x.id === data.badge).trading = data.trading
+      }
+    }
+  })
+</script>

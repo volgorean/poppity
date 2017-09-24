@@ -16,10 +16,13 @@ class CreateModels < ActiveRecord::Migration[5.1]
     create_table :collections do |t|
       t.string :name
       t.string :image
+      t.integer :badges_count, default: 0
     end
 
     create_table :categories do |t|
       t.string :name
+      t.string :image
+      t.integer :badges_count, default: 0
     end
 
     create_table :badges do |t|

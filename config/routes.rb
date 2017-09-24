@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     get "/", to: "trades#index", as: :trades
     get "/:id", to: "trades#show", as: :trade
 
+    get "/:id/add_modal/:who", to: "trades#add_modal", as: :trade_add_modal
+
     post "/", to: "trades#create", as: :create_trade
     post "/:id", to: "trades#update", as: :update_trade
     post "/:id/message", to: "trades#message", as: :message_trade
