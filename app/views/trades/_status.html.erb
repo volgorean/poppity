@@ -1,57 +1,40 @@
 <div class="trade-statuses">
   <div class="trade-status-group">
-    <div class="flexi-c r trade-status">
+    <div class="flexi-c r trade-status" v-for="who in ['a', 'b']" :class="{'trade-status-incomplete': !trade.accepts[who]}">
       <div class="trade-status-mark"></div>
       <div class="trade-status-label">
-        <p class="trade-label-text">Hijinks Accepted the trade</p>
-        <p class="trade-label-timestamp">timestamp</p>
-      </div>
-    </div>
-
-    <div class="flexi-c r trade-status">
-      <div class="trade-status-mark"></div>
-      <div class="trade-status-label">
-        <p class="trade-label-text">Hijinks Accepted the trade</p>
-        <p class="trade-label-timestamp">timestamp</p>
+        <p class="trade-label-text">{{trade[who].username}} accepted offer</p>
+        <p class="trade-label-timestamp">{{accepted_at[who]}}</p>
       </div>
     </div>
   </div>
 
-  <div class="trade-status-group">
-    <div class="flexi-c r trade-status">
+  <div class="trade-status-group" v-if="trade.accepts.a && trade.accepts.b">
+    <div class="flexi-c r trade-status" v-for="who in ['a', 'b']" :class="{'trade-status-incomplete': !trade.sent[who]}">
       <div class="trade-status-mark"></div>
       <div class="trade-status-label">
-        <p class="trade-label-text">Hijinks Sent items</p>
-        <p class="trade-label-timestamp">timestamp</p>
-      </div>
-    </div>
-
-    <div class="flexi-c r trade-status">
-      <div class="trade-status-mark"></div>
-      <div class="trade-status-label">
-        <p class="trade-label-text">Hijinks Sent items</p>
-        <p class="trade-label-timestamp">timestamp</p>
+        <p class="trade-label-text">{{trade[who].username}} sent items</p>
+        <p class="trade-label-timestamp">{{sent_at[who]}}</p>
       </div>
     </div>
   </div>
 
-  <div class="trade-status-group">
-    <div class="flexi-c r trade-status">
+  <div class="trade-status-group" v-if="trade.sent.a && trade.sent.b">
+    <div class="flexi-c r trade-status" v-for="who in ['a', 'b']" :class="{'trade-status-incomplete': !trade.recieved[who]}">
       <div class="trade-status-mark"></div>
       <div class="trade-status-label">
-        <p class="trade-label-text">Hijinks Recieved deliverey</p>
-        <p class="trade-label-timestamp">timestamp</p>
-      </div>
-    </div>
-
-    <div class="flexi-c r trade-status">
-      <div class="trade-status-mark"></div>
-      <div class="trade-status-label">
-        <p class="trade-label-text">Hijinks Recieved deliverey</p>
-        <p class="trade-label-timestamp">timestamp</p>
+        <p class="trade-label-text">{{trade[who].username}} recieved items</p>
+        <p class="trade-label-timestamp">{{recieved_at[who]}}</p>
       </div>
     </div>
   </div>
 
-  <div class="status-mark-complete"></div>
+
+  <div class="status-mark">
+    <div class="mark-closed" v-if="trade.closed">closed</div>
+    <div class="mark-accept" v-else-if="!trade.accepts.a || !trade.accepts.b" @click="update_status('accepts', true)">accept</div>
+    <div class="mark-sent" v-else-if="!trade.sent.a || !trade.sent.b" @click="update_status('sent', true)">sent</div>
+    <div class="mark-recieved" v-else-if="!trade.recieved.a || !trade.recieved.b" @click="update_status('recieved', true)">recieved</div>
+    <div class="mark-complete" v-else>complete</div>
+  </div>
 </div>

@@ -37,15 +37,46 @@
         }
       }
     }
+    .trade-status-incomplete {
+      color: gray;
+
+      .trade-status-mark {
+        background: image-url("x.svg") no-repeat center, lightgray;
+        background-size: 20px;
+      }
+    }
   }
 
-  .status-mark-complete {
+  .status-mark {
     width: 100%;
     height: 80px;
-    border-radius: 5px;
     top: 5px;
+    padding: 10px;
     margin-bottom: 10px;
+    border-radius: 5px;
     background: lavender;
+
+    > * {
+      text-align: center;
+      border-radius: 5px;
+      font: 900 24px/60px sans-serif;
+      background: lightgray;
+      color: gray;
+      cursor: pointer;
+    }
+
+    .mark-accept {
+      background: #2ecc71;
+      color: #27ae60;
+    }
+    .mark-sent {
+      background: #2ecc71;
+      color: #27ae60;
+    }
+    .mark-recieved {
+      background: #2ecc71;
+      color: #27ae60;
+    }
   }
 }
 

@@ -4,13 +4,22 @@
   </div>
 
   <div class="flexi-i listing">
+
+    <h3 class="year-title" v-if="trade.accepts.a && trade.accepts.b">Send to</h3>
+
+    <div class="send-to" v-if="trade.accepts.a && trade.accepts.b">
+      <h4>{{trade.send_to.name}}</h4>
+      <h4>{{trade.send_to.address}}</h4>
+    </div>
+
+
     <h3 class="year-title">Your offer</h3>
 
     <div class="cards five">
       <div class="card"
         v-for="badge in your_badges"
         @click="update_offer(<%= current_user.id %>, badge)"
-        :class="{'card-gold': badge.wish, 'card-gray': !badge.trading}">
+        :class="{'card-gold': badge.wish, 'card-gray': !badge.trading, hidden: (trade.accepts.a && trade.accepts.b && !badge.trading) }">
         <p class="card-image"></p>
         <p class="card-title">{{badge.name}}</p>
       </div>
@@ -22,7 +31,7 @@
       <div class="card"
         v-for="badge in their_badges"
         @click="update_offer(<%= @them.id %>, badge)"
-        :class="{'card-gold': badge.wish, 'card-gray': !badge.trading}">
+        :class="{'card-gold': badge.wish, 'card-gray': !badge.trading, hidden: (trade.accepts.a && trade.accepts.b && !badge.trading) }">
         <p class="card-image"></p>
         <p class="card-title">{{badge.name}}</p>
       </div>
@@ -34,13 +43,101 @@
   var vivi = new Vue({
     el: "#app",
     data: {
+      trade: {
+        send_to: {
+          name: "<%= @them.name if @trade.a_accepts & @trade.b_accepts %>",
+          address: "<%= @them.address if @trade.a_accepts & @trade.b_accepts %>"
+        },
+        a: {
+          id: <%= @trade.a.id %>,
+          username: "<%= @trade.a.username %>"
+        },
+        b: {
+          id: <%= @trade.b.id %>,
+          username: "<%= @trade.b.username %>"
+        },
+        accepts: {
+          a: <%= @trade.a_accepts %>,
+          a_at: <%= @trade.a_accepts_at&.to_i || "null" %>,
+          b: <%= @trade.b_accepts %>,
+          b_at: <%= @trade.b_accepts_at&.to_i || "null" %>
+        },
+        sent: {
+          a: <%= @trade.a_sent %>,
+          a_at: <%= @trade.a_sent_at&.to_i || "null" %>,
+          b: <%= @trade.b_sent %>,
+          b_at: <%= @trade.b_sent_at&.to_i || "null" %>
+        },
+        recieved: {
+          a: <%= @trade.a_recieved %>,
+          a_at: <%= @trade.a_recieved_at&.to_i || "null" %>,
+          b: <%= @trade.b_recieved %>,
+          b_at: <%= @trade.b_recieved_at&.to_i || "null" %>
+        },
+        closed: <%= @trade.closed %>
+      },
       your_badges: <%= raw (@your_badges).to_json %>,
-      their_badges: <%= raw (@their_badges).to_json %>
+      their_badges: <%= raw (@their_badges).to_json %>,
+      time: Date.now()
+    },
+    computed: {
+      accepted_at: function() {
+        return {
+          a: this.time_ago(this.$data.time, this.$data.trade.accepts.a_at),
+          b: this.time_ago(this.$data.time, this.$data.trade.accepts.b_at)
+        }
+      },
+      sent_at: function() {
+        return {
+          a: this.time_ago(this.$data.time, this.$data.trade.sent.a_at),
+          b: this.time_ago(this.$data.time, this.$data.trade.sent.b_at)
+        }
+      },
+      recieved_at: function() {
+        return {
+          a: this.time_ago(this.$data.time, this.$data.trade.recieved.a_at),
+          b: this.time_ago(this.$data.time, this.$data.trade.recieved.b_at)
+        }
+      }
     },
     methods: {
       update_offer: function(user_id, badge) {
         this.appli.perform("update_offer", {user: user_id, badge: badge.id, trading: !badge.trading})
+      },
+      update_status: function(status, value) {
+        this.appli.perform("update_status", {status: status, value: value})
+      },
+      time_ago: function(now, time) {
+        if (time == null || time == 0) {
+          return "-- : -- : --"
+        } else {
+          var ago = (now/1000|0) - (time)
+
+          var hour = 60*60
+          var day = hour*24
+          var month = day*30
+          var year = month*12
+
+          if (ago < hour) {
+            return ((ago/60)|0) + " minute" + (((ago/60)|0) == 1 ? "" : "s") + " ago"
+          } else if (ago < day) {
+            return ((ago/hour)|0) + " hour" + (((ago/hour)|0) == 1 ? "" : "s") + " ago"
+          } else if (ago < month) {
+            return ((ago/day)|0) + " day" + (((ago/day)|0) == 1 ? "" : "s") + " ago"
+          } else if (ago < year) {
+            return ((ago/month)|0) + " month" + (((ago/month)|0) == 1 ? "" : "s") + " ago"
+          } else {
+            return ((ago/year)|0) + " year" + (((ago/year)|0) == 1 ? "" : "s") + " ago"
+          }
+        }
       }
+    },
+    mounted() {
+      var ctx = this;
+
+      setInterval(function() {
+        ctx.$data.time = Date.now();
+      }, 15 * 1000);
     }
   });
 
@@ -50,6 +147,11 @@
       if (data.kind == "update_offer") {
         var whos_badges = (data.user == <%= current_user.id %> ? "your_badges" : "their_badges")
         vivi.$data[whos_badges].find(x => x.id === data.badge).trading = data.trading
+      } else if (data.kind == "update_status") {
+        Object.keys(data).forEach(function(key,index) {
+          if (key == "kind") return;
+          vivi.$data.trade[key] = data[key]
+        });
       }
     }
   })

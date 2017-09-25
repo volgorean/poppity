@@ -58,11 +58,20 @@ ActiveRecord::Schema.define(version: 20170919105147) do
     t.integer "a_id"
     t.integer "b_id"
     t.jsonb "chat"
-    t.boolean "a_accepts"
-    t.boolean "b_accepts"
-    t.integer "a_accepts_at"
-    t.integer "b_accepts_at"
-    t.integer "last_change"
+    t.boolean "a_accepts", default: false
+    t.boolean "b_accepts", default: false
+    t.datetime "a_accepts_at"
+    t.datetime "b_accepts_at"
+    t.boolean "a_sent", default: false
+    t.boolean "b_sent", default: false
+    t.datetime "a_sent_at"
+    t.datetime "b_sent_at"
+    t.boolean "a_recieved", default: false
+    t.boolean "b_recieved", default: false
+    t.datetime "a_recieved_at"
+    t.datetime "b_recieved_at"
+    t.boolean "closed", default: false
+    t.datetime "last_change_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
