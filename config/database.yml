@@ -13,7 +13,7 @@ development:
 
 production:
   <<: *default
-  host: ENV["db_host"]
-  database: ENV["db_name"]
-  username: ENV["db_username"]
-  password: ENV["db_password"]
+  host: <%= ENV["DB_HOST"] %>
+  database: <%= ENV["DB_NAME"] %>
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>

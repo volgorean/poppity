@@ -8,7 +8,7 @@ gem 'turbolinks', '~> 5'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 
-# gem 'redis', '~> 3.0'
+gem 'dotenv-rails'
 gem 'bcrypt', '~> 3.1.7'
 
 group :development do
