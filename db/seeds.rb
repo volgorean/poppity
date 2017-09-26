@@ -60,7 +60,7 @@ Collection.all.each do |c|
         if rand(0..1) == 1
           u.wishes.create(badge: b)
         else
-          u.inventories.create(badge: b)
+          u.inventories.create(badge: b, number: 1)
         end
       end
     end

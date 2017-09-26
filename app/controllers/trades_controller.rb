@@ -13,23 +13,42 @@ class TradesController < ApplicationController
     @your_offer = @trade.trade_badges.where(user_id: current_user).pluck(:badge_id)
     @their_offer = @trade.trade_badges.where(user_id: @them).pluck(:badge_id)
 
+    if (@trade.a_accepts && @trade.b_accepts)
+      @your_badges = Badge.where(id: @your_offer).map do |badge|
+        {
+          id: badge.id,
+          name: badge.name,
+          trading: true,
+          wish: @their_wishes.include?(badge)
+        }
+      end
 
-    @your_badges = current_user.badges.map do |badge|
-      {
-        id: badge.id,
-        name: badge.name,
-        trading: @your_offer.include?(badge.id),
-        wish: @their_wishes.include?(badge)
-      }
-    end
+      @their_badges = Badge.where(id: @their_offer).map do |badge|
+        {
+          id: badge.id,
+          name: badge.name,
+          trading: true,
+          wish: @your_wishes.include?(badge)
+        }
+      end
+    else
+      @your_badges = current_user.badges.map do |badge|
+        {
+          id: badge.id,
+          name: badge.name,
+          trading: @your_offer.include?(badge.id),
+          wish: @their_wishes.include?(badge)
+        }
+      end
 
-    @their_badges = @them.badges.map do |badge|
-      {
-        id: badge.id,
-        name: badge.name,
-        trading: @their_offer.include?(badge.id),
-        wish: @your_wishes.include?(badge)
-      }
+      @their_badges = @them.badges.map do |badge|
+        {
+          id: badge.id,
+          name: badge.name,
+          trading: @their_offer.include?(badge.id),
+          wish: @your_wishes.include?(badge)
+        }
+      end
     end
   end
 
