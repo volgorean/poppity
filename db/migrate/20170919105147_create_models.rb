@@ -29,7 +29,8 @@ class CreateModels < ActiveRecord::Migration[5.1]
       t.string :name
       t.string :year
 
-      t.string :image
+      t.binary :image
+      t.string :image_type
 
       t.integer :category_id
       t.integer :collection_id

@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     post "/:id/unwish", to: "badges#unwish", as: :unwish
 
     post "/:id/inventory", to: "badges#inventory", as: :inventory
+
+    get "/:id/image", to: "badges#image", as: :badge_image
   end
 
   scope :trades do

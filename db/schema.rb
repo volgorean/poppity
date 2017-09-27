@@ -18,7 +18,8 @@ ActiveRecord::Schema.define(version: 20170919105147) do
   create_table "badges", force: :cascade do |t|
     t.string "name"
     t.string "year"
-    t.string "image"
+    t.binary "image"
+    t.string "image_type"
     t.integer "category_id"
     t.integer "collection_id"
     t.datetime "created_at", null: false

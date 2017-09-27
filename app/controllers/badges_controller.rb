@@ -36,4 +36,9 @@ class BadgesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def image
+    badge = Badge.find(params[:id])
+    send_data(badge.image, type: badge.image_type, disposition: "inline")
+  end
 end

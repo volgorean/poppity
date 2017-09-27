@@ -19,7 +19,8 @@ class TradesController < ApplicationController
           id: badge.id,
           name: badge.name,
           trading: true,
-          wish: @their_wishes.include?(badge)
+          wish: @their_wishes.include?(badge),
+          image: badge_image_path(badge)
         }
       end
 
@@ -28,7 +29,8 @@ class TradesController < ApplicationController
           id: badge.id,
           name: badge.name,
           trading: true,
-          wish: @your_wishes.include?(badge)
+          wish: @your_wishes.include?(badge),
+          image: badge_image_path(badge)
         }
       end
     else
@@ -37,7 +39,8 @@ class TradesController < ApplicationController
           id: badge.id,
           name: badge.name,
           trading: @your_offer.include?(badge.id),
-          wish: @their_wishes.include?(badge)
+          wish: @their_wishes.include?(badge),
+          image: badge_image_path(badge)
         }
       end
 
@@ -46,7 +49,8 @@ class TradesController < ApplicationController
           id: badge.id,
           name: badge.name,
           trading: @their_offer.include?(badge.id),
-          wish: @your_wishes.include?(badge)
+          wish: @your_wishes.include?(badge),
+          image: badge_image_path(badge)
         }
       end
     end

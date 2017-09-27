@@ -20,7 +20,14 @@
         v-for="badge in your_badges"
         @click="update_offer(<%= current_user.id %>, badge)"
         :class="{'card-gold': badge.wish, 'card-gray': !badge.trading, hidden: (trade.accepts.a && trade.accepts.b && !badge.trading) }">
-        <p class="card-image"></p>
+        
+        <p
+          class="card-image"
+          :style="{
+            background: 'url('+badge.image+') no-repeat center',
+            backgroundSize: 'contain'
+          }"></p>
+        
         <p class="card-title">{{badge.name}}</p>
       </div>
     </div>
@@ -32,7 +39,14 @@
         v-for="badge in their_badges"
         @click="update_offer(<%= @them.id %>, badge)"
         :class="{'card-gold': badge.wish, 'card-gray': !badge.trading, hidden: (trade.accepts.a && trade.accepts.b && !badge.trading) }">
-        <p class="card-image"></p>
+        
+        <p
+          class="card-image"
+          :style="{
+            background: 'url('+badge.image+') no-repeat center',
+            backgroundSize: 'contain'
+          }"></p>
+        
         <p class="card-title">{{badge.name}}</p>
       </div>
     </div>

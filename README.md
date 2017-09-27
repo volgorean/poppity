@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+config.action_cable.allowed_request_origins = [ 'http://138.68.132.172' ]
 
-Things you may want to cover:
+sudo restart puma-manager
+sudo service nginx restart
 
-* Ruby version
+sudo -i -u rails
 
-* System dependencies
+postgres user: rails
+postgres pass: fig_bucket
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+sudo nano /etc/nginx/sites-available/default
