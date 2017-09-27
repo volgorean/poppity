@@ -1,6 +1,6 @@
 <div class="flexi-c r">
   <div class="flexi-i side-bar">
-    <div class="card">
+    <div class="card <%= (current_user&.wish_items&.include? @badge) ? ' card-gold' : '' %>">
       <% if current_user %>
         <%= link_to "", "#", class: "card-star #{(current_user.wish_items.include? @badge) ? 'active' : ''}" %>
       <% end %>
