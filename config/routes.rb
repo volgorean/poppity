@@ -14,24 +14,16 @@ Rails.application.routes.draw do
 
   scope :badges do
     get "/:id", to: "badges#show", as: :badge
+    get "/:id/image", to: "badges#image", as: :badge_image
 
     post "/:id/wish", to: "badges#wish", as: :wish
     post "/:id/unwish", to: "badges#unwish", as: :unwish
-
     post "/:id/inventory", to: "badges#inventory", as: :inventory
-
-    get "/:id/image", to: "badges#image", as: :badge_image
   end
 
   scope :trades do
-    get "/", to: "trades#index", as: :trades
     get "/:id", to: "trades#show", as: :trade
-
-    get "/:id/add_modal/:who", to: "trades#add_modal", as: :trade_add_modal
-
     post "/", to: "trades#create", as: :create_trade
-    post "/:id", to: "trades#update", as: :update_trade
-    post "/:id/message", to: "trades#message", as: :message_trade
   end
 
   root to: "collections#index"

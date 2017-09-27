@@ -5,9 +5,9 @@
 
   <div class="flexi-i listing">
 
-    <h3 class="year-title" v-if="trade.accepts.a && trade.accepts.b">Send to</h3>
+    <h3 class="year-title" v-if="(trade.accepts.a && trade.accepts.b) && !(trade.sent.a && trade.sent.b)">Send to</h3>
 
-    <div class="send-to" v-if="trade.accepts.a && trade.accepts.b">
+    <div class="send-to" v-if="(trade.accepts.a && trade.accepts.b) && !(trade.sent.a && trade.sent.b)">
       <h4>{{trade.send_to.name}}</h4>
       <h4>{{trade.send_to.address}}</h4>
     </div>
@@ -18,8 +18,21 @@
     <div class="cards five">
       <div class="card"
         v-for="badge in your_badges"
-        @click="update_offer(<%= current_user.id %>, badge)"
-        :class="{'card-gold': badge.wish, 'card-gray': !badge.trading, hidden: (trade.accepts.a && trade.accepts.b && !badge.trading) }">
+        @click="update_offer(<%= current_user.id %>, badge, (badge.trading<1 ? 1 : 0))"
+        :class="{'card-gold': badge.wish, 'card-gray': badge.trading<1, hidden: (trade.accepts.a && trade.accepts.b && badge.trading<1) }">
+
+        <p class="card-inventory">
+          {{badge.trading}}<template v-if="!(trade.accepts && trade.accepts.b)">/{{badge.inventory}}</template>
+
+          <span
+            class="trade-add"
+            @click.stop="update_offer(<%= current_user.id %>, badge, Math.min(badge.trading+1, badge.inventory))"
+            v-if="!(trade.accepts && trade.accepts.b)"></span>
+          <span
+            class="trade-subtract"
+            @click.stop="update_offer(<%= current_user.id %>, badge, Math.max(badge.trading-1, 0))"
+            v-if="!(trade.accepts && trade.accepts.b)"></span>
+        </p>
         
         <p
           class="card-image"
@@ -37,8 +50,21 @@
     <div class="cards five">
       <div class="card"
         v-for="badge in their_badges"
-        @click="update_offer(<%= @them.id %>, badge)"
-        :class="{'card-gold': badge.wish, 'card-gray': !badge.trading, hidden: (trade.accepts.a && trade.accepts.b && !badge.trading) }">
+        @click="update_offer(<%= @them.id %>, badge, (badge.trading<1 ? 1 : 0))"
+        :class="{'card-gold': badge.wish, 'card-gray': badge.trading<1, hidden: (trade.accepts.a && trade.accepts.b && badge.trading<1) }">
+
+        <p class="card-inventory">
+          {{badge.trading}}<template v-if="!(trade.accepts && trade.accepts.b)">/{{badge.inventory}}</template>
+
+          <span
+            class="trade-add"
+            @click.stop="update_offer(<%= @them.id %>, badge, Math.min(badge.trading+1, badge.inventory))"
+            v-if="!(trade.accepts && trade.accepts.b)"></span>
+          <span
+            class="trade-subtract"
+            @click.stop="update_offer(<%= @them.id %>, badge, Math.max(badge.trading-1, 0))"
+            v-if="!(trade.accepts && trade.accepts.b)"></span>
+        </p>
         
         <p
           class="card-image"
@@ -59,8 +85,8 @@
     data: {
       trade: {
         send_to: {
-          name: "<%= @them.name if @trade.a_accepts & @trade.b_accepts %>",
-          address: "<%= @them.address if @trade.a_accepts & @trade.b_accepts %>"
+          name: "<%= @them.name if (@trade.a_accepts && @trade.b_accepts) && !(@trade.a_sent && @trade.b_sent) %>",
+          address: "<%= @them.address if (@trade.a_accepts && @trade.b_accepts) && !(@trade.a_sent && @trade.b_sent) %>"
         },
         a: {
           id: <%= @trade.a.id %>,
@@ -115,8 +141,8 @@
       }
     },
     methods: {
-      update_offer: function(user_id, badge) {
-        this.appli.perform("update_offer", {user: user_id, badge: badge.id, trading: !badge.trading})
+      update_offer: function(user_id, badge, trading) {
+        this.appli.perform("update_offer", {user: user_id, badge: badge.id, trading: trading})
       },
       update_status: function(status, value) {
         this.appli.perform("update_status", {status: status, value: value})

@@ -80,48 +80,32 @@
   }
 }
 
-#trade_overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-
-  #trade_modal {
-    width: 640px;
-    max-width: 100%;
-    height: calc(100vh - 200px);
-    margin: 40px auto;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 20px 1px rgba(0,0,0,0.75);
-    background: white;
-
-    overflow-y: scroll;
-
-    .exit-modal {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      cursor: pointer;
-      color: lightgray;
-    }
-  }
-
-  .full-size {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 100;
-  }
-}
-
 .send-to {
   font: 600 18px/24px sans-serif;
+}
+
+.trade-add {
+  position: absolute;
+  top: -8px;
+  left: -2px;
+  width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid gray;
+  opacity: 0;
+}
+.trade-subtract {
+  position: absolute;
+  bottom: -8px;
+  left: -2px;
+  width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid gray;
+  opacity: 0;
+}
+.trade-add:hover, .trade-subtract:hover {
+  opacity: 1;
 }

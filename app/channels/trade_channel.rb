@@ -64,24 +64,28 @@ class TradeChannel < ApplicationCable::Channel
     return if @trade.closed
     return if @trade.a_accepts && @trade.b_accepts
 
-    if item["trading"] == true
-      @trade.trade_badges.find_or_create_by(user_id: item["user"], badge_id: item["badge"])
+    if item["trading"] > 0
+      item["trading"] = [(Inventory.find_by(user_id: item["user"], badge_id: item["badge"])&.number || 0), item["trading"]].min
+
+      tb = @trade.trade_badges.find_or_initialize_by(user_id: item["user"], badge_id: item["badge"])
+      tb.number = item["trading"]
+      return unless tb.save
     else
       @trade.trade_badges.find_by(user_id: item["user"], badge_id: item["badge"])&.destroy
     end
 
-    @trade.update(a_accepts: false, a_accepts_at: nil, b_accepts: false, b_accepts_at: nil, last_change_at: Time.now)
+    if @trade.update(a_accepts: false, a_accepts_at: nil, b_accepts: false, b_accepts_at: nil, last_change_at: Time.now)
+      ActionCable.server.broadcast("trade_#{@trade.id}", {
+        kind: "update_status",
+        accepts: {
+          a: @trade.a_accepts,
+          a_at: @trade.a_accepts_at.to_i,
+          b: @trade.b_accepts,
+          b_at: @trade.b_accepts_at.to_i
+        }
+      })
 
-    ActionCable.server.broadcast("trade_#{@trade.id}", {
-      kind: "update_status",
-      accepts: {
-        a: @trade.a_accepts,
-        a_at: @trade.a_accepts_at.to_i,
-        b: @trade.b_accepts,
-        b_at: @trade.b_accepts_at.to_i
-      }
-    })
-
-    ActionCable.server.broadcast("trade_#{@trade.id}", {kind: "update_offer", user: item["user"], badge: item["badge"], trading: item["trading"]})
+      ActionCable.server.broadcast("trade_#{@trade.id}", {kind: "update_offer", user: item["user"], badge: item["badge"], trading: item["trading"]})
+    end
   end
 end

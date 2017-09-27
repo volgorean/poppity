@@ -10,49 +10,37 @@ class TradesController < ApplicationController
     @your_wishes = current_user.wish_items
     @their_wishes = @them.wish_items
 
-    @your_offer = @trade.trade_badges.where(user_id: current_user).pluck(:badge_id)
-    @their_offer = @trade.trade_badges.where(user_id: @them).pluck(:badge_id)
+    @your_offer = @trade.trade_badges.where(user_id: current_user.id)
+    @their_offer = @trade.trade_badges.where(user_id: @them.id)
 
     if (@trade.a_accepts && @trade.b_accepts)
-      @your_badges = Badge.where(id: @your_offer).map do |badge|
-        {
-          id: badge.id,
-          name: badge.name,
-          trading: true,
-          wish: @their_wishes.include?(badge),
-          image: badge_image_path(badge)
-        }
-      end
-
-      @their_badges = Badge.where(id: @their_offer).map do |badge|
-        {
-          id: badge.id,
-          name: badge.name,
-          trading: true,
-          wish: @your_wishes.include?(badge),
-          image: badge_image_path(badge)
-        }
-      end
+      @your_badges = Badge.where(id: @your_offer.pluck(:badge_id))
+      @their_badges = Badge.where(id: @their_offer.pluck(:badge_id))
     else
-      @your_badges = current_user.badges.map do |badge|
-        {
-          id: badge.id,
-          name: badge.name,
-          trading: @your_offer.include?(badge.id),
-          wish: @their_wishes.include?(badge),
-          image: badge_image_path(badge)
-        }
-      end
+      @your_badges = current_user.badges
+      @their_badges = @them.badges
+    end
 
-      @their_badges = @them.badges.map do |badge|
-        {
-          id: badge.id,
-          name: badge.name,
-          trading: @their_offer.include?(badge.id),
-          wish: @your_wishes.include?(badge),
-          image: badge_image_path(badge)
-        }
-      end
+    @your_badges = @your_badges.map do |badge|
+      {
+        id: badge.id,
+        name: badge.name,
+        inventory: badge.inventories.find_by(user: current_user)&.number,
+        trading: (@your_offer.find_by(badge_id: badge.id)&.number || 0),
+        wish: @their_wishes.include?(badge),
+        image: badge_image_path(badge)
+      }
+    end
+
+    @their_badges = @their_badges.map do |badge|
+      {
+        id: badge.id,
+        name: badge.name,
+        inventory: badge.inventories.find_by(user: @them)&.number,
+        trading: (@their_offer.find_by(badge_id: badge.id)&.number || 0),
+        wish: @your_wishes.include?(badge),
+        image: badge_image_path(badge)
+      }
     end
   end
 
@@ -65,15 +53,8 @@ class TradesController < ApplicationController
     if trade.save
       redirect_to trade_path(trade)
     else
-      puts trade.errors.full_messages
       flash_messages << {text: "Failed to create trade.", kind: "alert"}
       redirect_back(fallback_location: root_path)
     end
-  end
-
-  def update
-    @trade = current_user.trades.find(params[:id])
-
-    # TradeUpdatesChannel.broadcast_to(@post, @comment)
   end
 end

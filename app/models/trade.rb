@@ -12,7 +12,9 @@ class Trade < ApplicationRecord
   before_save :transfer_inventory, if: :b_recieved_changed?
 
   def transfer_inventory
+    puts "HERE"
     return if !(a_recieved && b_recieved) || closed
+    puts "hahaha"
 
     ActiveRecord::Base.transaction do
       self.trade_badges.each do |tb|
@@ -20,16 +22,16 @@ class Trade < ApplicationRecord
 
         i = Inventory.find_or_initialize_by(user_id: other_id, badge_id: tb.badge_id)
         i.number ||= 0
-        i.number += 1
+        i.number += tb.number
         i.save
 
         f = Inventory.find_by(user_id: tb.user_id, badge_id: tb.badge_id)
         f.number ||= 0
+        f.number -= tb.number
 
-        if f.number >= 1
+        if f.number < 1
           f.destroy
         else
-          f.number -= 1
           f.save
         end
       end
