@@ -1,10 +1,20 @@
-def fake_name
-  out = []
+require "csv"
 
-  out << ["Eland", "Meercat", "Penguin", "ladybird", "Gruffalo", "Reindeer", "Chocolate", "Rabbit", "Tiger"].sample
-  out << ["Adventure", "Bedroom", "Birthday", "River", "Heard", "Train", "Ride", "Scientist", "School"].sample
+col, cat = nil, nil
 
-  out.join(" ")
+file = File.expand_path File.join(File.dirname(__FILE__), "seed.csv")
+
+CSV.foreach(file) do |row|
+  col = Collection.find_or_create_by(name: row[2]) unless row[2] == col&.name
+  cat = Category.find_or_create_by(name: row[3]) unless row[2] == cat&.name
+
+  Badge.create(
+    name: row[0],
+    year: row[1],
+    collection: col,
+    category: cat,
+    image: row[4]
+  )
 end
 
 users = []
@@ -35,34 +45,3 @@ users << User.create(
   password_hash: BCrypt::Password.create("joeshmo"),
   admin: false
 )
-
-["Legoland", "Alton Towers", "Chester Zoo", "Folly Farm", "Hogwarts"].each do |name|
-  Collection.create(name: name)
-end
-
-["pop badge", "collector bricks", "pin badges", "minifigures"].each do |name|
-  Category.create(name: name)
-end
-
-cat_ids = Category.all.pluck(:id)
-
-Collection.all.each do |c|
-  (2012..2017).each do |year|
-    rand(10).times do
-      b = Badge.create(
-        name: fake_name,
-        year: year,
-        category_id: cat_ids.sample,
-        collection_id: c.id
-      )
-
-      users.each do |u|
-        if rand(0..1) == 1
-          u.wishes.create(badge: b)
-        else
-          u.inventories.create(badge: b, number: 1)
-        end
-      end
-    end
-  end
-end

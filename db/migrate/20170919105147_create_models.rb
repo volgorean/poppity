@@ -27,7 +27,7 @@ class CreateModels < ActiveRecord::Migration[5.1]
 
     create_table :badges do |t|
       t.string :name
-      t.integer :year
+      t.string :year
 
       t.string :image
 

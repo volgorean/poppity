@@ -17,6 +17,7 @@ class CollectionsController < ApplicationController
         @badges.last[:badges] << {
           id: badge.id,
           name: badge.name,
+          image: badge.image,
           link: badge_path(badge),
           wish: (wishes.include? badge.id)
         }

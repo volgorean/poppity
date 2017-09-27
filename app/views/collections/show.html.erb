@@ -20,7 +20,14 @@
             <div class="card-star" :class="{'active': badge.wish}" @click.prevent="wish(badge)"></div>
           <% end %>
 
-          <a :href="badge.link" class="card-image"></a>
+          <a
+            :href="badge.link"
+            class="card-image"
+            :style="{
+              background: 'url('+badge.image+') no-repeat center',
+              backgroundSize: 'contain'
+            }"></a>
+          
           <a :href="badge.link" class="card-title">{{ badge.name }}</a>
         </div>
       </div>
