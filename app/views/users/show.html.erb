@@ -1,6 +1,5 @@
 <h1 class="section-title"><%= @user.username %></h1>
 
-
 <% if current_user%>
     <div class="flexi-i listing">
       <ul class="rows">
@@ -19,28 +18,34 @@
     </div>
 <% end %>
 
+<h1 class="section-title">Wish List</h1>
 
-<h3 class="year-title">Wish list</h3>
+<% @user.wish_items.group_by(&:collection).each do |collection, badges| %>
+  <h3 class="year-title"><%= collection.name %></h3>
 
-<div class="cards six">
-  <% @user.wish_items.each do |b| %>
-    <div class="card">
-      <%= link_to "", badge_path(b), class: "card-image" %>
-      <%= link_to b.name, badge_path(b), class: "card-title" %>
-    </div>
-  <% end %>
-</div>
+  <div class="cards six">
+    <% badges.each do |b| %>
+      <div class="card card-gold">
+        <%= link_to "", badge_path(b), class: "card-image", style: "background: url(#{badge_image_path(b)}) no-repeat center; background-size: contain;" %>
+        <%= link_to b.name, badge_path(b), class: "card-title" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
 
+<h1 class="section-title">Owns</h1>
 
-<h3 class="year-title">Owns</h3>
+<% @user.badges.preload(:inventories).group_by(&:collection).each do |collection, badges| %>
+  <h3 class="year-title"><%= collection.name %></h3>
 
-<div class="cards six">
-  <% @user.inventories.each do |i| %>
-    <div class="card">
-      <p class="card-inventory"><%= i.number %></p>
+  <div class="cards six">
+    <% badges.each do |b| %>
+      <div class="card">
+        <p class="card-inventory"><%= b.inventories.find_by(user_id: @user.id).number %></p>
 
-      <%= link_to "", badge_path(i.badge_id), class: "card-image" %>
-      <%= link_to i.badge.name, badge_path(i.badge_id), class: "card-title" %>
-    </div>
-  <% end %>
-</div>
+        <%= link_to "", badge_path(b), class: "card-image", style: "background: url(#{badge_image_path(b)}) no-repeat center; background-size: contain;" %>
+        <%= link_to b.name, badge_path(b), class: "card-title" %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
