@@ -1,7 +1,62 @@
-<ul>
-  <h3><%= @category.name %></h3>
+<div id="app" class="flexi-c r">
+  <div class="flexi-i side-bar">
+    <div class="card">
+      <%= link_to "", category_path(@category), class: "card-image" %>
+      <%= link_to @category.name, category_path(@category), class: "card-title" %>
+    </div>
+  </div>
 
-  <% @category.badges.each do |b| %>
-    <li><%= link_to b.name, badge_path(b) %></li>
-  <% end %>
-</ul>
+  <div class="flexi-i listing">
+    <template v-for="group in category">
+      <h3 class="year-title">{{ group.collection }}</h3>
+
+      <div class="cards">
+        <div
+          v-for="badge in group.badges"
+          class="card"
+          :class="{'card-gold': badge.wish}">
+
+          <% if current_user %>
+            <div class="card-star" :class="{'active': badge.wish}" @click.prevent="wish(badge)"></div>
+          <% end %>
+
+          <a
+            :href="badge.link"
+            class="card-image"
+            :style="{
+              background: 'url('+badge.image+') no-repeat center',
+              backgroundSize: 'contain'
+            }"></a>
+          
+          <a :href="badge.link" class="card-title">{{ badge.name }}</a>
+        </div>
+      </div>
+    </template>
+  </div>
+</div>
+
+<script>
+  var vivi = new Vue({
+    el: "#app",
+    data: {
+      category: <%= raw @badges.to_json %>
+    },
+    methods: {
+      wish: function(badge) {
+        var toggle = (badge.wish ? "/unwish" : "/wish")
+
+        fetch("/badges/"+badge.id+toggle,{
+          method: "POST",
+          headers: {
+            "X-CSRF-Token": "<%= form_authenticity_token.to_s %>"
+          },
+          credentials: "same-origin"
+        })
+        .then(function(res){  
+          badge.wish = !badge.wish
+        })
+        .catch(function(res){ console.log(res) })
+      }
+    },
+  });
+</script>
