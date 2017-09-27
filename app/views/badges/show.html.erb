@@ -49,7 +49,7 @@
         id: <%= @badge.id %>,
         name: "<%= @badge.name %>",
         inventory: <%= @inventory %>,
-        wish: <%= (current_user&.wish_items&.include? @badge) %>
+        wish: <%= (current_user&.wish_items&.include? @badge) || false %>
       },
       tmpInv: <%= @inventory %>
     },
