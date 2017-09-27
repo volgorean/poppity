@@ -12,9 +12,7 @@ class Trade < ApplicationRecord
   before_save :transfer_inventory, if: :b_recieved_changed?
 
   def transfer_inventory
-    puts "HERE"
     return if !(a_recieved && b_recieved) || closed
-    puts "hahaha"
 
     ActiveRecord::Base.transaction do
       self.trade_badges.each do |tb|

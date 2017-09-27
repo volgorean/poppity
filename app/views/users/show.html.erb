@@ -28,10 +28,12 @@
 <h3 class="year-title">Owns</h3>
 
 <div class="cards six">
-  <% @user.badges.each do |b| %>
+  <% @user.inventories.each do |i| %>
     <div class="card">
-      <%= link_to "", badge_path(b), class: "card-image" %>
-      <%= link_to b.name, badge_path(b), class: "card-title" %>
+      <p class="card-inventory"><%= i.number %></p>
+
+      <%= link_to "", badge_path(i.badge_id), class: "card-image" %>
+      <%= link_to i.badge.name, badge_path(i.badge_id), class: "card-title" %>
     </div>
   <% end %>
 </div>
