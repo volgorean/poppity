@@ -1,3 +1,14 @@
 // Place all the styles related to the badges controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.inventory {
+  padding-top: 5px;
+  text-align: center;
+  font: 500 14px/32px sans-serif;
+  cursor: pointer;
+
+  input {
+    width: 32px;
+  }
+}

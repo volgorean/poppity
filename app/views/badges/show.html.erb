@@ -1,13 +1,25 @@
-<div class="flexi-c r">
+<div id="app" class="flexi-c r">
   <div class="flexi-i side-bar">
-    <div class="card <%= (current_user&.wish_items&.include? @badge) ? ' card-gold' : '' %>">
+    <div
+      class="card"
+      :class="{'card-gold': badge.wish}">
+      
       <% if current_user %>
-        <%= link_to "", "#", class: "card-star #{(current_user.wish_items.include? @badge) ? 'active' : ''}" %>
+        <div class="card-star" :class="{'active': badge.wish}" @click.prevent="wish(badge)"></div>
       <% end %>
 
-      <%= link_to "", badge_path(@badge), class: "card-image" %>
-      <%= link_to @badge.name, badge_path(@badge), class: "card-title" %>
+      <a :href="badge.link" class="card-image"></a>
+      <a :href="badge.link" class="card-title">{{ badge.name }}</a>
     </div>
+
+    <% if current_user %>
+      <p class="inventory">
+        I have
+        <input v-model="tmpInv" type="number" min="0" max="50" step="1"></input>
+        badges
+        <button v-if="tmpInv !== badge.inventory" @click="updateInventory(badge, tmpInv)">update</button>
+      </p>
+    <% end %>
   </div>
 
   <div class="flexi-i listing">
@@ -28,3 +40,50 @@
     </ul>
   </div>
 </div>
+
+<script>
+  var vivi = new Vue({
+    el: "#app",
+    data: {
+      badge: {
+        id: <%= @badge.id %>,
+        name: "<%= @badge.name %>",
+        inventory: <%= @inventory %>,
+        wish: <%= (current_user&.wish_items&.include? @badge) %>
+      },
+      tmpInv: <%= @inventory %>
+    },
+    methods: {
+      wish: function(badge) {
+        var toggle = (badge.wish ? "/unwish" : "/wish")
+
+        fetch("/badges/"+badge.id+toggle,{
+          method: "POST",
+          headers: {
+            "X-CSRF-Token": "<%= form_authenticity_token.to_s %>"
+          },
+          credentials: "same-origin"
+        })
+        .then(function(res){  
+          badge.wish = !badge.wish
+        })
+        .catch(function(res){ console.log(res) })
+      },
+      updateInventory(badge, val) {
+        fetch("/badges/"+badge.id+"/inventory",{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": "<%= form_authenticity_token.to_s %>"
+          },
+          body: JSON.stringify({number: val}),
+          credentials: "same-origin"
+        })
+        .then(function(res){  
+          badge.inventory = val
+        })
+        .catch(function(res){ console.log(res) })
+      }
+    },
+  });
+</script>

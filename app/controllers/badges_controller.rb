@@ -3,6 +3,7 @@ class BadgesController < ApplicationController
 
   def show
     @badge = Badge.find(params[:id])
+    @inventory = @badge.inventories.find_by(user: current_user)&.number || 0
 
     @wishers = @badge.wishers.where.not(id: current_user&.id)
     @owners = @badge.users.where.not(id: current_user&.id)
@@ -25,6 +26,12 @@ class BadgesController < ApplicationController
   end
 
   def inventory
+    if params[:number].to_i > 0
+      current_user.inventories.find_or_create_by(badge_id: params["id"]).update(number: params[:number])
+    elsif params[:number].to_i == 0
+      current_user.inventories.find_by(badge_id: params["id"])&.destroy
+    end
+
     respond_to do |format|
       format.json { head :ok }
     end
