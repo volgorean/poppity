@@ -1,5 +1,5 @@
 class BadgesController < ApplicationController
-  before_action :signed_in?, except: :show
+  before_action :signed_in?, except: [:show, :image]
 
   def show
     @badge = Badge.find(params[:id])
