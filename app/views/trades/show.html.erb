@@ -22,7 +22,7 @@
         :class="{'card-gold': badge.wish, 'card-gray': badge.trading<1, hidden: (trade.accepts.a && trade.accepts.b && badge.trading<1) }">
 
         <p class="card-inventory">
-          {{badge.trading}}<template v-if="!(trade.accepts && trade.accepts.b)">/{{badge.inventory}}</template>
+          {{badge.trading}}<template v-if="!(trade.accepts.a && trade.accepts.b)">/{{badge.inventory}}</template>
 
           <span
             class="trade-add"

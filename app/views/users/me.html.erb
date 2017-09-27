@@ -9,6 +9,7 @@
     <% @trades.each do |trade| %>
       <li class="flexi-c r">
         <%= link_to trade.status, trade_path(trade), class: "flexi-i" %>
+        <%= link_to "with #{trade.other(current_user).username}", trade_path(trade), class: "flexi-i" %>
         <%= link_to "created #{time_ago_in_words(trade.created_at)}", trade_path(trade), class: "flexi-i" %>
       </li>
     <% end %>

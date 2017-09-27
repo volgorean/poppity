@@ -11,6 +11,10 @@ class Trade < ApplicationRecord
   before_save :transfer_inventory, if: :a_recieved_changed?
   before_save :transfer_inventory, if: :b_recieved_changed?
 
+  def other(user)
+    a == user ? b : a
+  end
+
   def status
     if self.closed
       "Closed"
