@@ -35,7 +35,7 @@ input, select, textarea {
 }
 .middle {
   width: 960px;
-  max-width: 100%;
+  max-width: calc(100% - 20px);
   margin: 0 auto;
 }
 /* flex item */
@@ -55,9 +55,9 @@ input, select, textarea {
   flex-direction: row;
 }
 .side-bar {
-  flex: 0 1 280px;
+  flex: 0 0 280px;
   padding-top: 20px;
-  padding-right: 20px
+  padding-right: 20px;
 }
 .listing {
   padding-top: 10px;
@@ -232,7 +232,19 @@ nav {
 .card-gray {
   opacity: 0.3;
 }
-.five { grid-template-columns: repeat(5, 1fr); }
+.five {
+  grid-template-columns: repeat(5, 1fr);
+
+  @media (max-width: 960px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (max-width: 820px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 .six { grid-template-columns: repeat(6, 1fr); }
 
 .rows {
@@ -253,4 +265,10 @@ nav {
 
 .hidden {
   display: none;
+}
+
+@media (max-width: 560px) {
+  #app {
+    display: block;
+  }
 }
