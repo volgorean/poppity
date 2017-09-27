@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     end
 
     @user = User.preload(inventories: :badge).find(params[:id])
-    @trades = @user.trades.where("a_id = ? OR b_id = ?", current_user.id, current_user.id) if current_user
+    @trades = @user.trades.where("a_id = ? OR b_id = ?", current_user.id, current_user.id).order("created_at DESC") if current_user
   end
 
   def login_page

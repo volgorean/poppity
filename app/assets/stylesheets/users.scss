@@ -1,3 +1,14 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.new-trade-button {
+  width: 100%;
+  text-align: left;
+  padding: 0 10px;
+  font: 600 16px/32px sans-serif;
+  background: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}

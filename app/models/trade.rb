@@ -11,6 +11,20 @@ class Trade < ApplicationRecord
   before_save :transfer_inventory, if: :a_recieved_changed?
   before_save :transfer_inventory, if: :b_recieved_changed?
 
+  def status
+    if self.closed
+      "Closed"
+    elsif self.a_accepts & self.b_accepts
+      "Accepted"
+    elsif self.a_sent & self.b_sent
+      "Sending"
+    elsif self.a_recieved & self.b_recieved
+      "Recieved"
+    else
+      "Open"
+    end
+  end
+
   def transfer_inventory
     return if !(a_recieved && b_recieved) || closed
 

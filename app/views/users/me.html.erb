@@ -1,9 +1,42 @@
-<h1>Me! <%= current_user.username %></h1>
+<h1 class="section-title">Hi, <%= current_user.username %>!</h1>
 
-<ul>
-  <h3>Trades</h3>
-  
-  <% @trades.each do |t| %>
-    <li><%= link_to (t.a == current_user ? t.b.username : t.a.username), trade_path(t) %></li>
+
+<div class="flexi-i listing">
+  <ul class="rows">
+    <!-- <h3 class="year-title">Trades</h3> -->
+    <p class="new-trade-button">Trades</p>
+
+    <% @trades.each do |trade| %>
+      <li class="flexi-c r">
+        <%= link_to trade.status, trade_path(trade), class: "flexi-i" %>
+        <%= link_to "created #{time_ago_in_words(trade.created_at)}", trade_path(trade), class: "flexi-i" %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+
+<h3 class="year-title">Wish list</h3>
+
+<div class="cards six">
+  <% current_user.wish_items.each do |b| %>
+    <div class="card">
+      <%= link_to "", badge_path(b), class: "card-image" %>
+      <%= link_to b.name, badge_path(b), class: "card-title" %>
+    </div>
   <% end %>
-</ul>
+</div>
+
+
+<h3 class="year-title">Owns</h3>
+
+<div class="cards six">
+  <% current_user.inventories.each do |i| %>
+    <div class="card">
+      <p class="card-inventory"><%= i.number %></p>
+
+      <%= link_to "", badge_path(i.badge_id), class: "card-image" %>
+      <%= link_to i.badge.name, badge_path(i.badge_id), class: "card-title" %>
+    </div>
+  <% end %>
+</div>

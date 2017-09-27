@@ -2,14 +2,21 @@
 
 
 <% if current_user%>
-    <% @trades.each do |trade| %>
-      <%= link_to "Ongoing trade", trade_path(trade) %>
-    <% end %>
-    
-    <%= form_tag(create_trade_path, method: "POST") do %>
-      <input type="hidden" name="user_id" value="<%= @user.id %>"></input>
-      <input type="submit" value="Open new trade with <%= @user.username %>"></input>
-    <% end %>
+    <div class="flexi-i listing">
+      <ul class="rows">
+        <%= form_tag(create_trade_path, method: "POST") do %>
+          <input type="hidden" name="user_id" value="<%= @user.id %>"></input>
+          <input type="submit" class="new-trade-button" value="Open new trade with <%= @user.username %>"></input>
+        <% end %>
+
+        <% @trades.each do |trade| %>
+          <li class="flexi-c r">
+            <%= link_to trade.status, trade_path(trade), class: "flexi-i" %>
+            <%= link_to "created #{time_ago_in_words(trade.created_at)}", trade_path(trade), class: "flexi-i" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
 <% end %>
 
 
