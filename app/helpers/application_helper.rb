@@ -9,6 +9,14 @@ module ApplicationHelper
     @flash_messages ||= FlashCollection.new(session)
   end
 
+  def card_image(path, image_url)
+    link_to "", path, class: "card-image", style: "background: url(#{image_url}) no-repeat center; background-size: contain;"
+  end
+
+  def drop_icon(path, image_url)
+    link_to "", path, class: "flexi-i drop-icon", style: "background: url(#{image_url}) no-repeat center; background-size: contain;"
+  end
+
   class FlashCollection
     include Enumerable
 

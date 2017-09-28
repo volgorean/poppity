@@ -14,7 +14,7 @@
 <div class="cards">
   <% @collections.each do |c| %>
     <div class="card">
-      <%= link_to "", collection_path(c), class: "card-image" %>
+      <%= card_image(collection_path(c), c.image.url) %>
       <%= link_to c.name, collection_path(c), class: "card-title" %>
     </div>
   <% end %>

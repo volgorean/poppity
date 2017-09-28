@@ -1,7 +1,7 @@
 <div id="app" class="flexi-c r">
   <div class="flexi-i side-bar">
     <div class="card">
-      <%= link_to "", collection_path(@collection), class: "card-image" %>
+      <%= card_image(collection_path(@collection), @collection.image.url) %>
       <%= link_to @collection.name, collection_path(@collection), class: "card-title" %>
     </div>
   </div>

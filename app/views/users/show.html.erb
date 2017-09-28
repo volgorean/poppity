@@ -26,7 +26,7 @@
   <div class="cards six">
     <% badges.each do |b| %>
       <div class="card card-gold">
-        <%= link_to "", badge_path(b), class: "card-image", style: "background: url(#{b.image.url}) no-repeat center; background-size: contain;" %>
+        <%= card_image(badge_path(b), b.image.url) %>
         <%= link_to b.name, badge_path(b), class: "card-title" %>
       </div>
     <% end %>
@@ -43,7 +43,7 @@
       <div class="card">
         <p class="card-inventory"><%= b.inventories.find_by(user_id: @user.id).number %></p>
 
-        <%= link_to "", badge_path(b), class: "card-image", style: "background: url(#{b.image.url}) no-repeat center; background-size: contain;" %>
+        <%= card_image(badge_path(b), b.image.url) %>
         <%= link_to b.name, badge_path(b), class: "card-title" %>
       </div>
     <% end %>
