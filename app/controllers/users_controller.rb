@@ -16,24 +16,35 @@ class UsersController < ApplicationController
   end
 
   def login_page
+    if current_user
+      flash_messages << {text: "already signed in.", kind: "alert"}
+      redirect_to "/me"
+    end
   end
 
   def login
     user = User.find_by(email: params[:email])
     
     # password is type BCrypt::Password
-    if user && user.password == params[:password]
+    if user && user.password == params[:password] && !user.banned
       session[:user_id] = user.id
 
       flash_messages << {text: "Welcome back!", kind: "notice"}
       redirect_to root_path
+    elsif user && user.password == params[:password] && user.banned
+      flash_messages << {text: "This account has been suspended.", kind: "alert"}
+      redirect_to login_path
     else
       flash_messages << {text: "incorrect email/password combination", kind: "alert"}
-      redirect_to :back
+      redirect_to login_path
     end
   end
 
   def register_page
+    if current_user
+      flash_messages << {text: "already signed in.", kind: "alert"}
+      redirect_to "/me"
+    end
   end
 
   def register

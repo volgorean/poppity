@@ -10,7 +10,7 @@ module ApplicationCable
     
     def find_verified_user
       if current_user = User.find_by(id: session[:user_id])
-        current_user
+        current_user unless current_user.banned
       else
         reject_unauthorized_connection
       end

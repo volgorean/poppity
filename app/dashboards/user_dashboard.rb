@@ -18,6 +18,8 @@ class UserDashboard < Administrate::BaseDashboard
     username: Field::String,
     password_hash: Field::String,
     admin: Field::Boolean,
+    verified: Field::Boolean,
+    banned: Field::Boolean,
     name: Field::String,
     address: Field::String,
     created_at: Field::DateTime,
@@ -34,6 +36,8 @@ class UserDashboard < Administrate::BaseDashboard
     :email,
     :badges,
     :wishes,
+    :verified,
+    :banned
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -44,6 +48,8 @@ class UserDashboard < Administrate::BaseDashboard
     :email,
     :name,
     :address,
+    :verified,
+    :banned,
     :inventories,
     :badges,
     :wishes,
@@ -61,6 +67,8 @@ class UserDashboard < Administrate::BaseDashboard
     :email,
     :name,
     :address,
+    :verified,
+    :banned,
     :inventories,
     :badges,
     :wishes,

@@ -5,7 +5,9 @@ class CreateModels < ActiveRecord::Migration[5.1]
       t.string :username
       t.string :password_hash
 
-      t.boolean :admin
+      t.boolean :admin, default: false
+      t.boolean :verified, default: false
+      t.boolean :banned, default: false
 
       t.string :name
       t.string :address

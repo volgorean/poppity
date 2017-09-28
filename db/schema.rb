@@ -89,7 +89,9 @@ ActiveRecord::Schema.define(version: 20170919105147) do
     t.string "email"
     t.string "username"
     t.string "password_hash"
-    t.boolean "admin"
+    t.boolean "admin", default: false
+    t.boolean "verified", default: false
+    t.boolean "banned", default: false
     t.string "name"
     t.string "address"
     t.datetime "created_at", null: false
