@@ -15,13 +15,13 @@ class CreateModels < ActiveRecord::Migration[5.1]
 
     create_table :collections do |t|
       t.string :name
-      t.string :image
+      t.has_attached_file :image
       t.integer :badges_count, default: 0
     end
 
     create_table :categories do |t|
       t.string :name
-      t.string :image
+      t.has_attached_file :image
       t.integer :badges_count, default: 0
     end
 
@@ -29,8 +29,7 @@ class CreateModels < ActiveRecord::Migration[5.1]
       t.string :name
       t.string :year
 
-      t.binary :image
-      t.string :image_type
+      t.has_attached_file :image
 
       t.integer :category_id
       t.integer :collection_id

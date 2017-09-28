@@ -28,7 +28,7 @@ class TradesController < ApplicationController
         inventory: badge.inventories.find_by(user: current_user)&.number,
         trading: (@your_offer.find_by(badge_id: badge.id)&.number || 0),
         wish: @their_wishes.include?(badge),
-        image: badge_image_path(badge)
+        image: badge.image.url
       }
     end
 
@@ -39,7 +39,7 @@ class TradesController < ApplicationController
         inventory: badge.inventories.find_by(user: @them)&.number,
         trading: (@their_offer.find_by(badge_id: badge.id)&.number || 0),
         wish: @your_wishes.include?(badge),
-        image: badge_image_path(badge)
+        image: badge.image.url
       }
     end
   end

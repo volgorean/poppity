@@ -13,7 +13,7 @@ class CategoriesController < ApplicationController
         @badges.last[:badges] << {
           id: badge.id,
           name: badge.name,
-          image: badge_image_path(badge),
+          image: badge.image.url,
           link: badge_path(badge),
           wish: (wishes.include? badge.id)
         }

@@ -8,15 +8,12 @@ CSV.foreach(file) do |row|
   col = Collection.find_or_create_by(name: row[2]) unless row[2] == col&.name
   cat = Category.find_or_create_by(name: row[3]) unless row[2] == cat&.name
 
-  image = File.open(File.join(File.dirname(__FILE__), row[4]))
-
   Badge.create(
     name: row[0],
     year: row[1],
     collection: col,
     category: cat,
-    image: image.read,
-    image_type: "image/jpeg"
+    image: File.new(File.join(File.dirname(__FILE__), row[4]))
   )
 end
 

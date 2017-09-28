@@ -27,7 +27,6 @@ Rails.application.routes.draw do
 
   scope :badges do
     get "/:id", to: "badges#show", as: :badge
-    get "/:id/image", to: "badges#image", as: :badge_image
 
     post "/:id/wish", to: "badges#wish", as: :wish
     post "/:id/unwish", to: "badges#unwish", as: :unwish

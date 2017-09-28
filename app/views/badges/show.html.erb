@@ -54,7 +54,7 @@
       badge: {
         id: <%= @badge.id %>,
         name: "<%= @badge.name %>",
-        image: "<%= badge_image_path(@badge) %>",
+        image: "<%= @badge.image.url %>",
         inventory: <%= @inventory %>,
         wish: <%= (current_user&.wish_items&.include? @badge) || false %>
       },
