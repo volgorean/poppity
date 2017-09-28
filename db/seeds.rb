@@ -2,7 +2,7 @@ require "csv"
 
 col, cat = nil, nil
 
-file = File.expand_path File.join(File.dirname(__FILE__), "seeds.csv")
+file = Rails.root.join("seed", "data.csv")
 
 CSV.foreach(file) do |row|
   col = Collection.find_or_create_by(name: row[2]) unless row[2] == col&.name
@@ -13,7 +13,7 @@ CSV.foreach(file) do |row|
     year: row[1],
     collection: col,
     category: cat,
-    image: File.new(File.join(File.dirname(__FILE__), row[4]))
+    image: File.new(Rails.root.join("seed", "badge_images", row[4]))
   )
 end
 
