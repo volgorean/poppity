@@ -33,7 +33,7 @@
       <h3 class="year-title<%= @wishers.empty? ? ' cross' : '' %>">Wishers</h3>
 
       <% @wishers.each do |u| %>
-        <li><%= link_to u.username, user_path(u) %></li>
+        <li><%= link_to "#{u.username} (#{u.verified ? '' : 'un'}verified)", user_path(u) %></li>
       <% end %>
     </ul>
 
@@ -41,7 +41,7 @@
       <h3 class="year-title <%= @owners.empty? ? ' cross' : '' %>">Owners</h3>
 
       <% @owners.each do |u| %>
-        <li><%= link_to u.username, user_path(u) %></li>
+        <li><%= link_to "#{u.username} (#{u.verified ? '' : 'un'}verified)", user_path(u) %></li>
       <% end %>
     </ul>
   </div>

@@ -2,11 +2,11 @@ class BadgesController < ApplicationController
   before_action :signed_in?, except: [:show, :image]
 
   def show
-    @badge = Badge.find(params[:id])
+    @badge = Badge.preload(:wishers, :users).find(params[:id])
     @inventory = @badge.inventories.find_by(user: current_user)&.number || 0
 
-    @wishers = @badge.wishers.where.not(id: current_user&.id)
-    @owners = @badge.users.where.not(id: current_user&.id)
+    @wishers = @badge.wishers
+    @owners = @badge.users
   end
 
   def wish
