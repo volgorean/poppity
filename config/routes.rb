@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :badges
+    resources :categories
+    resources :collections
+    resources :inventories
+    resources :trades
+    resources :trade_badges
+    resources :users
+    resources :wishes
+
+    root to: "badges#index"
+  end
+
   get "/me", to: "users#me"
   get "/users/:id", to: "users#show", as: :user
   get "/collections/:id", to: "collections#show", as: :collection
