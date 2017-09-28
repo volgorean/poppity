@@ -11,9 +11,10 @@ gem 'uglifier', '>= 1.3.0'
 gem 'dotenv-rails'
 gem 'bcrypt', '~> 3.1.7'
 
-gem 'paperclip', '~> 5.0.0'
-
 gem 'administrate'
+
+gem 'paperclip', '~> 5.0.0'
+gem 'administrate-field-paperclip'
 
 group :development do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

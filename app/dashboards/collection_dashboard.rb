@@ -11,7 +11,7 @@ class CollectionDashboard < Administrate::BaseDashboard
     badges: Field::HasMany,
     id: Field::Number,
     name: Field::String,
-    image: Field::String,
+    image: Field::Paperclip.with_options(thumbnail_style: "thumb"),
     badges_count: Field::Number,
   }.freeze
 

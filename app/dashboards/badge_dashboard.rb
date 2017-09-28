@@ -19,8 +19,7 @@ class BadgeDashboard < Administrate::BaseDashboard
     id: Field::Number,
     name: Field::String,
     year: Field::String,
-    image: Field::String.with_options(searchable: false),
-    image_type: Field::String,
+    image: Field::Paperclip.with_options(thumbnail_style: "thumb"),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -35,6 +34,7 @@ class BadgeDashboard < Administrate::BaseDashboard
     :collection,
     :category,
     :users,
+    :image
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -52,7 +52,6 @@ class BadgeDashboard < Administrate::BaseDashboard
     :trade_badges,
     :trades,
     :image,
-    :image_type,
     :created_at,
     :updated_at,
   ].freeze
@@ -66,7 +65,6 @@ class BadgeDashboard < Administrate::BaseDashboard
     :category,
     :collection,
     :image,
-    :image_type,
   ].freeze
 
   # Overwrite this method to customize how badges are displayed
