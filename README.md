@@ -11,3 +11,6 @@ postgres user: rails
 postgres pass: fig_bucket
 
 sudo nano /etc/nginx/sites-available/default
+
+RAILS_ENV=production rake db:create db:seed
+
