@@ -1,6 +1,6 @@
 <h1 class="section-title">Hi, <%= current_user.username %>!</h1>
 
-<div class="account-box items-initially-hidden" onCLick="display(document.getElementById('openAccountDetails'), 'accountItems')">
+<div class="account-box items-initially-hidden" onCLick="display(event.target, 'openAccountDetails', 'accountItems', true)">
   <%= form_tag("/me", method: "PATCH") do %>
     <div class="flexi-c r">
       <h1 class="flexi-i">Account Details</h1>
@@ -35,13 +35,14 @@
 
       <div class="flexi-c rr">
         <input class="account-button" type="submit" value="Update"></input>
-        <p class="account-button" onCLick="display(this, 'editPassword')">Change Password</p>
+        <p class="account-button" id="passButton" onCLick="display(this, 'passButton', 'editPassword', false)">Change Password</p>
       </div>
     </div>
   <% end %>
 </div>
 
-<div class="account-box items-initially-hidden" onCLick="display(document.getElementById('openTrades'), 'tradeItems')">
+
+<div class="account-box items-initially-hidden" onCLick="display(event.target, 'openTrades', 'tradeItems', true)">
   <div class="flexi-c r">
     <h1 class="flexi-i">Trades</h1>
     <p class="flexi-i account-box-open" id="openTrades"></p>
@@ -66,42 +67,80 @@
   </div>
 </div>
 
-<h1 class="section-title">Wish List</h1>
 
-<% current_user.wish_items.group_by(&:collection).each do |collection, badges| %>
-  <h3 class="year-title"><%= collection.name %></h3>
+<div class="account-box items-initially-hidden" onCLick="display(event.target, 'openWishes', 'wishItems', true)">
+  <div class="flexi-c r">
+    <h1 class="flexi-i">Wish List</h1>
+    <div class="flexi-i account-box-open" id="openWishes"></div>
+  </div>
 
-  <div class="cards">
-    <% badges.each do |b| %>
-      <div class="card card-gold">
-        <%= card_image(badge_path(b), b.image.url) %>
-        <%= link_to b.name, badge_path(b), class: "card-title" %>
+  <div class="hidden" id="wishItems">
+    <% current_user.wish_items.group_by(&:collection).each do |collection, badges| %>
+      <h3 class="year-title"><%= collection.name %></h3>
+
+      <div class="cards">
+        <% badges.each do |b| %>
+          <div class="card card-gold">
+            <%= card_image(badge_path(b), b.image.url) %>
+            <%= link_to b.name, badge_path(b), class: "card-title" %>
+          </div>
+        <% end %>
       </div>
     <% end %>
-  </div>
-<% end %>
 
-<h1 class="section-title">Owns</h1>
-
-<% current_user.badges.preload(:inventories).group_by(&:collection).each do |collection, badges| %>
-  <h3 class="year-title"><%= collection.name %></h3>
-
-  <div class="cards">
-    <% badges.each do |b| %>
-      <div class="card">
-        <p class="card-inventory"><%= b.inventories.find_by(user_id: current_user.id).number %></p>
-
-        <%= card_image(badge_path(b), b.image.url) %>
-        <%= link_to b.name, badge_path(b), class: "card-title" %>
-      </div>
+    <% if current_user.wish_items.empty? %>
+      <p class="account-centered">no items in wish list</p>
     <% end %>
   </div>
-<% end %>
+</div>
+
+
+<div class="account-box items-initially-hidden" onCLick="display(event.target, 'openInventory', 'inventoryItems', true)">
+  <div class="flexi-c r">
+    <h1 class="flexi-i">Inventory</h1>
+    <div class="flexi-i account-box-open" id="openInventory"></div>
+  </div>
+
+  <div class="hidden" id="inventoryItems">
+    <% current_user.badges.preload(:inventories).group_by(&:collection).each do |collection, badges| %>
+      <h3 class="year-title"><%= collection.name %></h3>
+
+      <div class="cards">
+        <% badges.each do |b| %>
+          <div class="card">
+            <p class="card-inventory"><%= b.inventories.find_by(user_id: current_user.id).number %></p>
+
+            <%= card_image(badge_path(b), b.image.url) %>
+            <%= link_to b.name, badge_path(b), class: "card-title" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if current_user.badges.empty? %>
+      <p class="account-centered">no items in inventory</p>
+    <% end %>
+  </div>
+</div>
 
 
 <script>
-  function display(el, id) {
-    document.getElementById(id).style.display = "block";
-    el.style.display = "none";
+  function display(clicked, el_id, id, undoable) {
+    var el = document.getElementById(el_id);
+
+    if (document.getElementById(id).style.display == "block" && undoable) {
+      if (el == clicked) {
+        document.getElementById(id).style.display = "none";
+        el.style.transform = "rotate(0deg)";
+      }
+    } else {
+      document.getElementById(id).style.display = "block";
+      
+      if (undoable) {
+        el.style.transform = "rotate(180deg)";
+      } else {
+        el.style.display = "none";
+      }
+    }
   }
 </script>

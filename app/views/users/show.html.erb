@@ -1,15 +1,16 @@
 <h1 class="section-title"><%= @user.username %></h1>
 
 <% if current_user %>
-  <div class="account-box items-initially-hidden" onCLick="display(document.getElementById('openTrades'), 'tradeItems', 'newTrade')">
+  <div class="account-box items-initially-hidden" onCLick="display(event.target, 'openTrades', 'tradeItems', 'newTrade', true)">
     <div class="flexi-c r">
       <h1 class="flexi-i">Trades</h1>
-      <p class="flexi-i account-box-open" id="openTrades"></p>
 
       <%= form_tag(create_trade_path, method: "POST", class: "flexi-i new-trade-button hidden", id: "newTrade") do %>
         <input type="hidden" name="user_id" value="<%= @user.id %>"></input>
         <input type="submit" value="Trade with <%= @user.username %> (<%= @user.verified ? '' : 'un' %>verified)"></input>
       <% end %>
+
+      <p class="flexi-i account-box-open" id="openTrades"></p>
     </div>
 
     <div class="hidden" id="tradeItems">
@@ -31,42 +32,83 @@
   </div>
 <% end %>
 
-<h1 class="section-title">Wish List</h1>
 
-<% @user.wish_items.group_by(&:collection).each do |collection, badges| %>
-  <h3 class="year-title"><%= collection.name %></h3>
+<div class="account-box items-initially-hidden" onCLick="display(event.target, 'openWishes', 'wishItems', false, true)">
+  <div class="flexi-c r">
+    <h1 class="flexi-i">Wish List</h1>
+    <div class="flexi-i account-box-open" id="openWishes"></div>
+  </div>
 
-  <div class="cards">
-    <% badges.each do |b| %>
-      <div class="card card-gold">
-        <%= card_image(badge_path(b), b.image.url) %>
-        <%= link_to b.name, badge_path(b), class: "card-title" %>
+  <div class="hidden" id="wishItems">
+    <% @wishes.each do |collection, badges| %>
+      <h3 class="year-title"><%= collection.name %></h3>
+
+      <div class="cards">
+        <% badges.each do |b| %>
+          <div class="card card-gold">
+            <%= card_image(badge_path(b), b.image.url) %>
+            <%= link_to b.name, badge_path(b), class: "card-title" %>
+          </div>
+        <% end %>
       </div>
     <% end %>
-  </div>
-<% end %>
 
-<h1 class="section-title">Owns</h1>
-
-<% @user.badges.preload(:inventories).group_by(&:collection).each do |collection, badges| %>
-  <h3 class="year-title"><%= collection.name %></h3>
-
-  <div class="cards">
-    <% badges.each do |b| %>
-      <div class="card">
-        <p class="card-inventory"><%= b.inventories.find_by(user_id: @user.id).number %></p>
-
-        <%= card_image(badge_path(b), b.image.url) %>
-        <%= link_to b.name, badge_path(b), class: "card-title" %>
-      </div>
+    <% if @wishes.empty? %>
+      <p class="account-centered">no items in wish list</p>
     <% end %>
   </div>
-<% end %>
+</div>
+
+
+<div class="account-box items-initially-hidden" onCLick="display(event.target, 'openInventory', 'inventoryItems', false, true)">
+  <div class="flexi-c r">
+    <h1 class="flexi-i">Inventory</h1>
+    <div class="flexi-i account-box-open" id="openInventory"></div>
+  </div>
+
+  <div class="hidden" id="inventoryItems">
+    <% @inventory.each do |collection, badges| %>
+      <h3 class="year-title"><%= collection.name %></h3>
+
+      <div class="cards">
+        <% badges.each do |b| %>
+          <div class="card">
+            <p class="card-inventory"><%= b.inventories.find_by(user_id: @user.id).number %></p>
+
+            <%= card_image(badge_path(b), b.image.url) %>
+            <%= link_to b.name, badge_path(b), class: "card-title" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @inventory.empty? %>
+      <p class="account-centered">no items in inventory</p>
+    <% end %>
+  </div>
+</div>
+
 
 <script>
-  function display(el, id, show) {
-    document.getElementById(id).style.display = "block";
-    document.getElementById(show).style.display = "block";
-    el.style.display = "none";
+  function display(clicked, el_id, id, extra_id, undoable) {
+    var el = document.getElementById(el_id);
+
+    if (document.getElementById(id).style.display == "block" && undoable) {
+      if (el == clicked) {
+        document.getElementById(id).style.display = "none";
+        el.style.transform = "rotate(0deg)";
+
+        if (extra_id) {document.getElementById(extra_id).style.display = "none";}
+      }
+    } else {
+      document.getElementById(id).style.display = "block";
+      
+      if (undoable) {
+        el.style.transform = "rotate(180deg)";
+        if (extra_id) {document.getElementById(extra_id).style.display = "block";}
+      } else {
+        el.style.display = "none";
+      }
+    }
   }
 </script>
