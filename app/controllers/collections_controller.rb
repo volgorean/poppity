@@ -10,7 +10,7 @@ class CollectionsController < ApplicationController
     wishes = current_user.wishes.pluck(:badge_id) if current_user
 
     @badges = []
-    @collection.badges.order('year DESC').group_by(&:year).each do |year, badges|
+    @collection.badges.paginate(page: params[:page], per_page: 50).order('year DESC').group_by(&:year).each do |year, badges|
       @badges << { year: year, badges: []}
 
       badges.each do |badge|
@@ -22,6 +22,11 @@ class CollectionsController < ApplicationController
           wish: (wishes.include? badge.id)
         }
       end
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @badges }
     end
   end
 end

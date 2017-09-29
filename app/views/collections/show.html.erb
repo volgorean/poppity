@@ -7,7 +7,7 @@
   </div>
 
   <div class="flexi-i listing">
-    <template v-for="group in collection">
+    <template v-for="group in result">
       <h3 class="year-title">{{ group.year }}</h3>
 
       <div class="cards">
@@ -39,7 +39,9 @@
   var vivi = new Vue({
     el: "#app",
     data: {
-      collection: <%= raw @badges.to_json %>
+      page: 1,
+      fetching: false,
+      result: <%= raw @badges.to_json %>
     },
     methods: {
       wish: function(badge) {
@@ -56,7 +58,45 @@
           badge.wish = !badge.wish
         })
         .catch(function(res){ console.log(res) })
+      },
+      nextPage: function(){
+        var data = this.$data
+        this.fetching = true
+        data.page ++
+
+        fetch("/search.json?search=<%= params[:search] %>&page="+data.page, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": "<%= form_authenticity_token.to_s %>"
+          },
+          credentials: "same-origin"
+        })
+        .then(res=>res.json())
+        .then(function(res){  
+          res.forEach( e => {
+            var last = data.result[data.result.length-1]
+
+            if (e.collection == last.collection) {
+              last.badges = last.badges.concat(e.badges)
+            } else {
+              data.result = data.result.concat(e)
+            }
+          })
+
+          data.result = data.result.concat(res)
+          data.fetching = false
+        })
+        .catch(function(res){ console.log(res) })
       }
     },
+    mounted() {
+      window.addEventListener('scroll', () => {
+        if(window.pageYOffset + window.innerHeight >= document.documentElement.scrollHeight - 80) {
+          if (!this.$data.fetching) {
+            this.nextPage()
+          }
+        }
+      })
+    }
   });
 </script>
