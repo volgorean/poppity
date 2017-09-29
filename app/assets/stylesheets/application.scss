@@ -96,12 +96,17 @@ nav {
       margin-right: 15px;
       background: image-url("logo.svg") no-repeat center;
       background-size: auto 100%;
+
+      @media (max-width: 660px) {
+        display: none;
+      }
     }
     > * {
       flex-grow: 0;
     }
   }
   .nav-right {
+    flex-grow: 0;
     justify-content: flex-end;
 
     > * {
@@ -115,6 +120,10 @@ nav {
     font: 500 20px/40px sans-serif;
     color: black;
     cursor: pointer;
+
+    @media (max-width: 400px) {
+      padding-left: 0;
+    }
   }
   .menu-arrow {
     padding-right: 16px;
@@ -139,11 +148,19 @@ nav {
     border-radius: 5px;
 
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-gap: 20px;
 
     background: white;
     display: none;
+
+    @media (max-width: 1360px) {
+      width: calc(480px + 40px);
+    }
+
+    @media (max-width: 840px) {
+      width: calc(280px + 40px);
+    }
 
     .drop-item:hover {
       background: #FAFAFA;
@@ -185,10 +202,13 @@ nav {
   }
 }
 
-.cards {
+.cards, .cards-big {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   grid-gap: 20px;
+}
+.cards-big {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 .card {
   padding: 20px;
@@ -241,20 +261,6 @@ nav {
 .card-gray {
   opacity: 0.3;
 }
-.five {
-  grid-template-columns: repeat(5, 1fr);
-
-  @media (max-width: 960px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media (max-width: 820px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (max-width: 700px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-.six { grid-template-columns: repeat(6, 1fr); }
 
 .rows {
   .cross {
@@ -279,5 +285,9 @@ nav {
 @media (max-width: 560px) {
   #app {
     display: block;
+
+    .side-bar {
+      padding: 0;
+    }
   }
 }

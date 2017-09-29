@@ -20,7 +20,7 @@
 <% current_user.wish_items.group_by(&:collection).each do |collection, badges| %>
   <h3 class="year-title"><%= collection.name %></h3>
 
-  <div class="cards six">
+  <div class="cards">
     <% badges.each do |b| %>
       <div class="card card-gold">
         <%= card_image(badge_path(b), b.image.url) %>
@@ -35,7 +35,7 @@
 <% current_user.badges.preload(:inventories).group_by(&:collection).each do |collection, badges| %>
   <h3 class="year-title"><%= collection.name %></h3>
 
-  <div class="cards six">
+  <div class="cards">
     <% badges.each do |b| %>
       <div class="card">
         <p class="card-inventory"><%= b.inventories.find_by(user_id: current_user.id).number %></p>

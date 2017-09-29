@@ -15,7 +15,7 @@
 
     <h3 class="year-title">Your offer</h3>
 
-    <div class="cards five">
+    <div class="cards">
       <div class="card"
         v-for="badge in your_badges"
         @click="update_offer(<%= current_user.id %>, badge, (badge.trading<1 ? 1 : 0))"
