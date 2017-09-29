@@ -54,6 +54,17 @@ footer {
     font: 800 14px/24px sans-serif;
     color: #222222;
   }
+
+  @media (max-width: 600px) {
+    footer {
+      display: block;
+    }
+    .disclaimer {
+      p {
+        text-align: left;
+      }
+    }
+  }
 }
 .middle {
   width: 960px;
