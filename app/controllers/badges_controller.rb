@@ -1,5 +1,5 @@
 class BadgesController < ApplicationController
-  before_action :signed_in?, except: [:show, :image]
+  before_action :signed_in?, except: [:show, :image, :search]
 
   def show
     @badge = Badge.preload(:wishers, :users).find(params[:id])
@@ -42,7 +42,7 @@ class BadgesController < ApplicationController
     wishes = current_user.wishes.pluck(:badge_id) if current_user
 
     @badges = []
-    Badge.where("name ~* ?", params[:search]).paginate(page: params[:page], per_page: 50).group_by(&:collection).each do |collection, badges|
+    Badge.where("name ~* ?", params[:search]).page(params[:page]).per(50).group_by(&:collection).each do |collection, badges|
       @badges << { collection: collection.name, badges: []}
 
       badges.each do |badge|

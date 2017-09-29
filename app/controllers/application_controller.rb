@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   def signed_in?
     if !current_user
-      flash_messages << {text: "Must be signed in to preform this action.", kind: "alert"}
+      flash_messages << {text: "Must be signed in to perform this action.", kind: "alert"}
       redirect_to login_page_path
     elsif current_user.banned
       session[:user_id] = nil

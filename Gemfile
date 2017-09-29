@@ -11,12 +11,11 @@ gem 'uglifier', '>= 1.3.0'
 gem 'dotenv-rails'
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'kaminari'
 gem 'administrate'
 
 gem 'paperclip', '~> 5.0.0'
 gem 'administrate-field-paperclip'
-
-gem 'will_paginate', '~> 3.1.0'
 
 group :development do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
