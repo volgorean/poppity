@@ -21,3 +21,6 @@
 
 # Ignore image uploads
 /public/sources/*
+
+# banish osx artifacts
+*.DS_Store
