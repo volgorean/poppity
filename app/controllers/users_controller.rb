@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :signed_in?, only: :me
+  before_action :signed_in?, only: [:me, :update]
 
   def me
     @trades = current_user.trades
@@ -81,6 +81,46 @@ class UsersController < ApplicationController
       end
 
       redirect_to register_page_path
+    end
+  end
+
+  def update
+    unless current_user.password == params[:password]
+      flash_messages << {text: "Incorrect password.", kind: "alert"}
+      redirect_to me_path
+      return
+    end
+
+    current_user.name = params["name"]
+    current_user.address = params["address"]
+
+    if params["new_password"]&.present?
+      unless params["new_password"] == params["new_password_confirmation"]
+        flash_messages << {text: "Password confirmation does not match.", kind: "alert"}
+        redirect_to me_path
+        return
+      end
+
+      unless params["new_password"]&.length >= 6
+        flash_messages << {text: "Password must be at least 6 characters long.", kind: "alert"}
+        redirect_to me_path
+        return
+      end
+
+      current_user.password_hash = BCrypt::Password.create(params["new_password"])
+    end
+
+    if current_user.save
+      flash_messages << {text: "Account details updated.", kind: "notice"}
+      redirect_to me_path
+    else
+      current_user.errors.messages.each do |key, message|
+        message.each do |text|
+          flash_messages << {text: text, kind: "alert"}
+        end
+      end
+
+      redirect_to me_path
     end
   end
 

@@ -33,6 +33,9 @@ html, body {
 input, select, textarea {
   outline: none;
 }
+input[readonly] {
+  cursor: not-allowed;
+}
 .middle {
   width: 960px;
   max-width: calc(100% - 20px);
@@ -54,6 +57,9 @@ input, select, textarea {
 .r {
   flex-direction: row;
 }
+.rr {
+  flex-direction: row-reverse;
+}
 .side-bar {
   flex: 0 0 280px;
   padding-top: 20px;
@@ -65,8 +71,8 @@ input, select, textarea {
 .flash {
   width: 100%;
   margin-bottom: 10px;
-  padding-left: 5px;
-  font: 500 14px/28px serif;
+  padding-left: 10px;
+  font: 500 14px/30px serif;
   border-radius: 3px;
   border: 1px solid lightgray;
   background: white;

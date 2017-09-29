@@ -2,13 +2,92 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.new-trade-button {
+.account-box {
   width: 100%;
-  text-align: left;
-  padding: 0 10px;
-  font: 600 16px/32px sans-serif;
+  margin-top: 10px;
+  padding: 20px 60px;
+  border-radius: 5px;
   background: white;
-  outline: none;
-  border: none;
-  cursor: pointer;
+
+  &.login {
+    margin-top: 40px;
+    padding: 40px 60px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
+
+  h1 {
+    font: 500 32px/36px sans-serif;
+    padding-bottom: 20px;
+  }
+
+  &.items-initially-hidden {
+    h1 {
+      padding-bottom: 0;
+    }
+  }
+
+  label {
+    font: 800 16px/20px sans-serif;
+  }
+
+  input {
+    width: 100%;
+    margin-bottom: 20px;
+    padding-left: 5px;
+    font: 500 16px/28px sans-serif;
+  }
+
+  .account-box-spacer {
+    width: 100%;
+    height: 20px;
+  }
+
+  .account-centered {
+    text-align: center;
+    font: 700 18px/60px sans-serif;
+    color: gray;
+  }
+
+  .account-button {
+    flex: 0 1 240px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    text-align: center;
+    font: 800 16px/30px sans-serif;
+    cursor: pointer;
+    background: lightgray;
+
+    &:not(:last-child) {
+      margin-left: 20px;
+    }
+  }
+
+  .new-trade-button {
+    flex: 0 1 360px;
+    padding: 0;
+    margin: 0;
+    margin-left: 5px;
+    background: lightgray;
+
+    input {
+      text-align: center;
+      font: 800 16px/36px sans-serif;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      margin: 0;
+    }
+  }
+
+  .account-box-open {
+    flex: 0 0 36px;
+    height: 36px;
+    cursor: pointer;
+    background: image-url("down.svg") no-repeat center;
+    background-size: auto 30px;
+  }
 }

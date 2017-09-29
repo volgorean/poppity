@@ -12,7 +12,9 @@ Rails.application.routes.draw do
     root to: "badges#index"
   end
 
-  get "/me", to: "users#me"
+  get "/me", to: "users#me", as: :me
+  patch "/me", to: "users#update"
+
   get "/users/:id", to: "users#show", as: :user
   get "/collections/:id", to: "collections#show", as: :collection
   get "/categories/:id", to: "categories#show", as: :category

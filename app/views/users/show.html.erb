@@ -1,22 +1,33 @@
 <h1 class="section-title"><%= @user.username %></h1>
 
-<% if current_user%>
-    <div class="flexi-i listing">
-      <ul class="rows">
-        <%= form_tag(create_trade_path, method: "POST") do %>
-          <input type="hidden" name="user_id" value="<%= @user.id %>"></input>
-          <input type="submit" class="new-trade-button" value="Open new trade with <%= @user.username %> (<%= @user.verified ? '' : 'un' %>verified)"></input>
-        <% end %>
+<div class="account-box items-initially-hidden" onCLick="display(document.getElementById('openTrades'), 'tradeItems', 'newTrade')">
+  <div class="flexi-c r">
+    <h1 class="flexi-i">Trades</h1>
+    <p class="flexi-i account-box-open" id="openTrades"></p>
 
-        <% @trades.each do |trade| %>
-          <li class="flexi-c r">
-            <%= link_to trade.status, trade_path(trade), class: "flexi-i" %>
-            <%= link_to "created #{time_ago_in_words(trade.created_at)}", trade_path(trade), class: "flexi-i" %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-<% end %>
+    <%= form_tag(create_trade_path, method: "POST", class: "flexi-i new-trade-button hidden", id: "newTrade") do %>
+      <input type="hidden" name="user_id" value="<%= @user.id %>"></input>
+      <input type="submit" value="Trade with <%= @user.username %> (<%= @user.verified ? '' : 'un' %>verified)"></input>
+    <% end %>
+  </div>
+
+  <div class="hidden" id="tradeItems">
+    <div class="account-box-spacer"></div>
+
+    <ul class="rows">
+      <% @trades.each do |trade| %>
+        <li class="flexi-c r">
+          <%= link_to "Status: #{trade.status}", trade_path(trade), class: "flexi-i" %>
+          <%= link_to "created #{time_ago_in_words(trade.created_at)}", trade_path(trade), class: "flexi-i" %>
+        </li>
+      <% end %>
+    </ul>
+
+    <% if @trades.empty? %>
+      <p class="account-centered">no trade history with <%= @user.username %></p>
+    <% end %>
+  </div>
+</div>
 
 <h1 class="section-title">Wish List</h1>
 
@@ -49,3 +60,11 @@
     <% end %>
   </div>
 <% end %>
+
+<script>
+  function display(el, id, show) {
+    document.getElementById(id).style.display = "block";
+    document.getElementById(show).style.display = "block";
+    el.style.display = "none";
+  }
+</script>

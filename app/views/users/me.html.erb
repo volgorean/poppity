@@ -1,18 +1,69 @@
 <h1 class="section-title">Hi, <%= current_user.username %>!</h1>
 
-<div class="flexi-i listing">
-  <ul class="rows">
-    <!-- <h3 class="year-title">Trades</h3> -->
-    <p class="new-trade-button">Trades</p>
+<div class="account-box items-initially-hidden" onCLick="display(document.getElementById('openAccountDetails'), 'accountItems')">
+  <%= form_tag("/me", method: "PATCH") do %>
+    <div class="flexi-c r">
+      <h1 class="flexi-i">Account Details</h1>
+      <div class="flexi-i account-box-open" id="openAccountDetails"></div>
+    </div>
 
-    <% @trades.each do |trade| %>
-      <li class="flexi-c r">
-        <%= link_to trade.status, trade_path(trade), class: "flexi-i" %>
-        <%= link_to "with #{trade.other(current_user).username}", trade_path(trade), class: "flexi-i" %>
-        <%= link_to "created #{time_ago_in_words(trade.created_at)}", trade_path(trade), class: "flexi-i" %>
-      </li>
+    <div class="hidden" id="accountItems">
+      <div class="account-box-spacer"></div>
+
+      <label>Email</label>
+      <input type="email" name="email" placeholder="abc@email.com" value="<%= current_user.email %>" readonly></input>
+      
+      <label>Username</label>
+      <input type="username" name="username" placeholder="abc_123" value="<%= current_user.username %>" readonly></input>
+
+      <label>Full Name</label>
+      <input type="text" name="name" placeholder="John Smith" value="<%= current_user.name %>" required></input>
+      
+      <label>Shipping Address</label>
+      <input type="text" name="address" placeholder="10 Downing St, Westminster, London SW1A 2AA, UK" value="<%= current_user.address %>" required></input>
+
+      <div class="hidden" id="editPassword">
+        <label>New Password</label>
+        <input type="password" name="new_password" placeholder="●●●●●●●●"></input>
+
+        <label>Repeat New Password</label>
+        <input type="password" name="new_password_confirmation" placeholder="●●●●●●●●"></input>
+      </div>
+
+      <label>Password</label>
+      <input type="password" name="password" placeholder="●●●●●●●●" required></input>
+
+      <div class="flexi-c rr">
+        <input class="account-button" type="submit" value="Update"></input>
+        <p class="account-button" onCLick="display(this, 'editPassword')">Change Password</p>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="account-box items-initially-hidden" onCLick="display(document.getElementById('openTrades'), 'tradeItems')">
+  <div class="flexi-c r">
+    <h1 class="flexi-i">Trades</h1>
+    <p class="flexi-i account-box-open" id="openTrades"></p>
+  </div>
+
+  <div class="hidden" id="tradeItems">
+    <div class="account-box-spacer"></div>
+
+    <ul class="rows">
+      <% @trades.each do |trade| %>
+        <li class="flexi-c r">
+          <%= link_to "Status: #{trade.status}", trade_path(trade), class: "flexi-i" %>
+          <%= link_to "With: #{trade.other(current_user).username}", trade_path(trade), class: "flexi-i" %>
+          <%= link_to "created #{time_ago_in_words(trade.created_at)}", trade_path(trade), class: "flexi-i" %>
+        </li>
+      <% end %>
+    </ul>
+
+    <% if @trades.empty? %>
+      <p class="account-centered">no trade history</p>
     <% end %>
-  </ul>
+  </div>
 </div>
 
 <h1 class="section-title">Wish List</h1>
@@ -46,3 +97,11 @@
     <% end %>
   </div>
 <% end %>
+
+
+<script>
+  function display(el, id) {
+    document.getElementById(id).style.display = "block";
+    el.style.display = "none";
+  }
+</script>

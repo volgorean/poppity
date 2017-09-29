@@ -1,8 +1,15 @@
-<%= form_tag("/login", method: "POST") do %>
-  <h3>Sign in</h3>
-  
-  <input type="email" name="email" placeholder="abc@123.com"></input>
-  <input type="password" name="password" placeholder="password"></input>
+<div class="account-box login">
+  <%= form_tag("/login", method: "POST") do %>
+    <h1>Login</h1>
+    
+    <label>Email</label>
+    <input type="email" name="email" placeholder="abc@email.com" required></input>
+    
+    <label>Password</label>
+    <input type="password" name="password" placeholder="●●●●●●●●" required></input>
 
-  <input type="submit"></input>
-<% end %>
+    <div class="flexi-c rr">
+      <input class="account-button" type="submit" value="Login"></input>
+    </div>
+  <% end %>
+</div>
