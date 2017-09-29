@@ -37,6 +37,8 @@
   var vivi = new Vue({
     el: "#app",
     data: {
+      page: 1,
+      fetching: false,
       result: <%= raw @badges.to_json %>
     },
     methods: {
@@ -54,7 +56,45 @@
           badge.wish = !badge.wish
         })
         .catch(function(res){ console.log(res) })
+      },
+      nextPage: function(){
+        var data = this.$data
+        this.fetching = true
+        data.page ++
+
+        fetch("/search.json?search=<%= params[:search] %>&page="+data.page, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": "<%= form_authenticity_token.to_s %>"
+          },
+          credentials: "same-origin"
+        })
+        .then(res=>res.json())
+        .then(function(res){  
+          res.forEach( e => {
+            var last = data.result[data.result.length-1]
+
+            if (e.collection == last.collection) {
+              last.badges = last.badges.concat(e.badges)
+            } else {
+              data.result = data.result.concat(e)
+            }
+          })
+
+          data.result = data.result.concat(res)
+          data.fetching = false
+        })
+        .catch(function(res){ console.log(res) })
       }
     },
+    mounted() {
+      window.addEventListener('scroll', () => {
+        if(window.pageYOffset + window.innerHeight >= document.documentElement.scrollHeight - 80) {
+          if (!this.$data.fetching) {
+            this.nextPage()
+          }
+        }
+      })
+    }
   });
 </script>

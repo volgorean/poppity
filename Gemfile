@@ -16,6 +16,8 @@ gem 'administrate'
 gem 'paperclip', '~> 5.0.0'
 gem 'administrate-field-paperclip'
 
+gem 'will_paginate', '~> 3.1.0'
+
 group :development do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'web-console', '>= 3.3.0'

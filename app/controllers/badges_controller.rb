@@ -42,7 +42,7 @@ class BadgesController < ApplicationController
     wishes = current_user.wishes.pluck(:badge_id) if current_user
 
     @badges = []
-    Badge.where("name ~* ?", params[:search]).group_by(&:collection).each do |collection, badges|
+    Badge.where("name ~* ?", params[:search]).paginate(page: params[:page], per_page: 50).group_by(&:collection).each do |collection, badges|
       @badges << { collection: collection.name, badges: []}
 
       badges.each do |badge|
@@ -54,6 +54,11 @@ class BadgesController < ApplicationController
           wish: (wishes.include? badge.id)
         }
       end
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @badges }
     end
   end
 end
