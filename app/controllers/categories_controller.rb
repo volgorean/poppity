@@ -18,11 +18,11 @@ class CategoriesController < ApplicationController
           wish: (wishes.include? badge.id)
         }
       end
+    end
 
-      respond_to do |format|
-        format.html
-        format.json { render json: @badges }
-      end
+    respond_to do |format|
+      format.html
+      format.json { render json: @badges }
     end
   end
 end
