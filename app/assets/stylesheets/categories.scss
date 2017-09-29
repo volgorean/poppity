@@ -18,23 +18,6 @@
     background: image-url("people.png") no-repeat center bottom;
     background-size: calc(100% - 80px) auto;
   }
-  #search {
-    width: 100%;
-    border-bottom: 3px solid lightgray;
-
-    > * {
-      height: 40px;
-      border: none;
-    }
-    .search-field {
-      flex: 4 4 calc(100% - 200px);
-      padding-left: 10px;
-    }
-    .search-submit {
-      flex: 0 0 200px;
-      text-align: center;
-    }
-  }
 }
 
 .section-title {

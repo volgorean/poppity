@@ -284,6 +284,30 @@ nav {
   }
 }
 
+#search {
+  width: 100%;
+  border-bottom: 3px solid lightgray;
+
+  > * {
+    height: 40px;
+    border: none;
+  }
+  .search-field {
+    flex: 1 1 calc(100% - 200px);
+    padding-left: 10px;
+  }
+  .search-submit {
+    flex: 0 1 200px;
+    text-align: center;
+    cursor: pointer;
+  }
+}
+.search-wrapper {
+  width: 100%;
+  max-width: 720px;
+  margin: 40px auto;
+}
+
 .hidden {
   display: none;
 }

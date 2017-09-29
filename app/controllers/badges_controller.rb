@@ -36,4 +36,24 @@ class BadgesController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def search
+    wishes = []
+    wishes = current_user.wishes.pluck(:badge_id) if current_user
+
+    @badges = []
+    Badge.where("name ~* ?", params[:search]).group_by(&:collection).each do |collection, badges|
+      @badges << { collection: collection.name, badges: []}
+
+      badges.each do |badge|
+        @badges.last[:badges] << {
+          id: badge.id,
+          name: badge.name,
+          image: badge.image.url,
+          link: badge_path(badge),
+          wish: (wishes.include? badge.id)
+        }
+      end
+    end
+  end
 end

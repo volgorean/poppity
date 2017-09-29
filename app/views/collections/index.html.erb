@@ -3,8 +3,8 @@
 
   <div id="people"></div>
 
-  <%= form_tag("/search", class: "flexi-c r", id: "search") do %>
-    <input class="flexi-i search-field" type="search" name="search" placeholder="Search..."></input>
+  <%= form_tag("/search", method: "get", class: "flexi-c r", id: "search") do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "flexi-i search-field" %>
     <input class="flexi-i search-submit" type="submit"></input>
   <% end %>
 </div>
