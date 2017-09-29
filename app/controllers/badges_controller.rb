@@ -1,5 +1,5 @@
 class BadgesController < ApplicationController
-  before_action :signed_in?, except: [:show, :image, :search]
+  before_action :signed_in?, except: [:show, :image]
 
   def show
     @badge = Badge.preload(:wishers, :users).find(params[:id])
