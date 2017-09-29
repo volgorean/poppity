@@ -53,7 +53,7 @@
     data: {
       badge: {
         id: <%= @badge.id %>,
-        name: "<%= @badge.name %>",
+        name: "<%= raw(@badge.name) %>",
         image: "<%= @badge.image.url %>",
         inventory: <%= @inventory %>,
         wish: <%= (current_user&.wish_items&.include? @badge) || false %>

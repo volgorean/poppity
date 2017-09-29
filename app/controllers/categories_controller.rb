@@ -6,7 +6,7 @@ class CategoriesController < ApplicationController
     wishes = current_user.wishes.pluck(:badge_id) if current_user
 
     @badges = []
-    @category.badges.page(params[:page]).per(50).group_by(&:collection).each do |collection, badges|
+    @category.badges.page(params[:page]).per(50).order(:id).group_by(&:collection).each do |collection, badges|
       @badges << { collection: collection.name, badges: []}
 
       badges.each do |badge|
