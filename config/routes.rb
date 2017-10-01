@@ -41,5 +41,7 @@ Rails.application.routes.draw do
     post "/", to: "trades#create", as: :create_trade
   end
 
+  get "/pages/:page", to: "pages#show", as: :pages
+
   root to: "collections#index"
 end
