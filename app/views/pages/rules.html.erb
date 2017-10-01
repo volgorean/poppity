@@ -1,1 +1,21 @@
-Rules!
+<div class="hero">
+  <h1 class="hero-title">Sign up today, and trade away!</h1>
+
+  <div id="people"></div>
+
+  <%= form_tag("/search", method: "get", class: "flexi-c r", id: "search") do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search...", class: "flexi-i search-field" %>
+    <input class="flexi-i search-submit" type="submit"></input>
+  <% end %>
+</div>
+
+<h1 class="section-title">collections</h1>
+
+<div class="cards-big">
+  <% @collections.each do |c| %>
+    <div class="card">
+      <%= card_image(collection_path(c), c.image.url) %>
+      <%= link_to c.name, collection_path(c), class: "card-title" %>
+    </div>
+  <% end %>
+</div>
