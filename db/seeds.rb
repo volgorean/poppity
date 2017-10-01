@@ -19,9 +19,9 @@ end
 
 users = []
 
-users << User.create(
+users << x = User.create(
   email: "me@mamamia.com",
-  username: "admin",
+  username: "joe",
   name: "joe",
   address: "123 platz place, somewhere",
   password_hash: BCrypt::Password.create("mamamia"),

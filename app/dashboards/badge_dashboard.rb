@@ -18,6 +18,7 @@ class BadgeDashboard < Administrate::BaseDashboard
     trades: Field::HasMany,
     id: Field::Number,
     name: Field::String,
+    slug: Field::String,
     year: Field::String,
     image: Field::Paperclip.with_options(thumbnail_style: "thumb"),
     created_at: Field::DateTime,
@@ -45,6 +46,7 @@ class BadgeDashboard < Administrate::BaseDashboard
     :year,
     :collection,
     :category,
+    :slug,
     :inventories,
     :users,
     :wishes,
@@ -64,6 +66,7 @@ class BadgeDashboard < Administrate::BaseDashboard
     :year,
     :category,
     :collection,
+    :slug,
     :image,
   ].freeze
 

@@ -11,9 +11,9 @@ module Admin
     # end
 
     # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   Badge.find_by!(slug: param)
-    # end
+    def find_resource(param)
+      Badge.friendly.find(param)
+    end
 
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information

@@ -21,6 +21,7 @@ class UserDashboard < Administrate::BaseDashboard
     verified: Field::Boolean,
     banned: Field::Boolean,
     name: Field::String,
+    slug: Field::String,
     address: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -45,6 +46,7 @@ class UserDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :username,
+    :slug,
     :email,
     :name,
     :address,
@@ -65,6 +67,7 @@ class UserDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :username,
+    :slug,
     :email,
     :name,
     :address,

@@ -11,6 +11,7 @@ class CollectionDashboard < Administrate::BaseDashboard
     badges: Field::HasMany,
     id: Field::Number,
     name: Field::String,
+    slug: Field::String,
     image: Field::Paperclip.with_options(thumbnail_style: "thumb"),
     badges_count: Field::Number,
   }.freeze
@@ -31,6 +32,7 @@ class CollectionDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :name,
+    :slug,
     :badges,
     :badges_count,
     :image,
@@ -41,6 +43,7 @@ class CollectionDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
+    :slug,
     :badges,
     :badges_count,
     :image,
