@@ -1,0 +1,28 @@
+
+<div class="account-box login">
+  <%= form_tag("/register", method: "POST") do %>
+    <h1>Register</h1>
+    
+    <label>Email</label>
+    <input type="email" name="email" placeholder="abc@email.com" required></input>
+    
+    <label>Username</label>
+    <input type="username" name="username" placeholder="abc_123" required></input>
+
+    <label>Full Name</label>
+    <input type="text" name="name" placeholder="John Smith" required></input>
+    
+    <label>Shipping Address</label>
+    <input type="text" name="address" placeholder="10 Downing St, Westminster, London SW1A 2AA, UK" required></input>
+
+    <label>Password</label>
+    <input type="password" name="password" placeholder="●●●●●●●●" required></input>
+    
+    <label>Repeat Password</label>
+    <input type="password" name="password_confirmation" placeholder="●●●●●●●●" required></input>
+
+    <div class="flexi-c rr">
+      <input class="account-button" type="submit" value="Register"></input>
+    </div>
+  <% end %>
+</div>
