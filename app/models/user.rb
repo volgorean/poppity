@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  extend FriendlyId
+
+  friendly_id :username, use: :slugged
+
   has_many :inventories, dependent: :destroy
   has_many :badges, through: :inventories
 

@@ -4,7 +4,7 @@ class CollectionsController < ApplicationController
   end
 
   def show
-    @collection = Collection.preload(:badges).find(params[:id])
+    @collection = Collection.preload(:badges).friendly.find(params[:id])
     
     wishes = []
     wishes = current_user.wishes.pluck(:badge_id) if current_user

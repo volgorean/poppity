@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       return
     end
 
-    @user = User.preload(inventories: :badge).find(params[:id])
+    @user = User.preload(inventories: :badge).friendly.find(params[:id])
     @trades = @user.trades.where("a_id = ? OR b_id = ?", current_user.id, current_user.id).order("created_at DESC") if current_user
     @wishes = @user.wish_items.group_by(&:collection)
     @inventory = @user.badges.preload(:inventories).group_by(&:collection)

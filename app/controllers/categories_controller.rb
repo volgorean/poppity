@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   def show
-    @category = Category.preload(:badges).find(params[:id])
+    @category = Category.preload(:badges).friendly.find(params[:id])
     
     wishes = []
     wishes = current_user.wishes.pluck(:badge_id) if current_user

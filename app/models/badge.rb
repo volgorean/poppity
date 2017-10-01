@@ -1,4 +1,8 @@
 class Badge < ApplicationRecord
+  extend FriendlyId
+
+  friendly_id :name, use: :slugged
+
   belongs_to :category, counter_cache: true
   belongs_to :collection, counter_cache: true
 
