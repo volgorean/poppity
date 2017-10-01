@@ -16,6 +16,12 @@
           backgroundSize: 'contain'
         }"></a>
       <a :href="badge.link" class="card-title">{{ badge.name }}</a>
+      <div class="card-tag">
+        <%= link_to @badge.collection.name, collection_path(@badge.collection_id) %>
+      </div>
+      <div class="card-tag">
+        <%= link_to @badge.category.name, category_path(@badge.category_id) %>
+      </div>
     </div>
 
     <% if current_user %>
@@ -41,7 +47,7 @@
       <h3 class="year-title <%= @owners.empty? ? ' cross' : '' %>">Owners</h3>
 
       <% @owners.each do |u| %>
-        <li><%= link_to "#{u.username} (#{u.verified ? '' : 'un'}verified)", user_path(u) %></li>
+        <li><%= link_to "#{u.username} (#{u.verified ? '' : 'un'}verified) has #{u.inventories.find_by(badge_id: @badge.id)&.number || 0}", user_path(u) %></li>
       <% end %>
     </ul>
   </div>

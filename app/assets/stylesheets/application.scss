@@ -290,6 +290,22 @@ nav {
     cursor: pointer;
     z-index: 500;
   }
+  .card-tag {
+    text-align: center;
+  }
+  .card-tag a {
+    margin: 0 auto;
+    padding: 0 10px;
+    text-align: center;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    font: 600 14px/20px sans-serif;
+    color: #222222;
+    background: #2ecc71;
+  }
+  .card-tag:last-child {
+    margin-bottom: 0;
+  }
 } 
 .card-gold {
   border-bottom: 3px solid gold;
