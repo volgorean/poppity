@@ -2,7 +2,7 @@ class BadgesController < ApplicationController
   before_action :signed_in?, except: [:show, :image]
 
   def show
-    @badge = Badge.preload(:wishers, :users, :collection, :category).find(params[:id])
+    @badge = Badge.preload(:wishers, :users, :collection).find(params[:id])
     @inventory = @badge.inventories.find_by(user: current_user)&.number || 0
 
     @wishers = @badge.wishers
